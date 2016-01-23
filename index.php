@@ -40,6 +40,7 @@
                                     die('Error connection Mysql-server ('.$dbc->connect_error.')');
                                 }
                                 $query = "select * from recordtable order by date desc";
+                                mysqli_set_charset($dbc,'utf8');
                                 if ($result=$dbc->query($query))
                                 {
                                     while ($row=mysqli_fetch_array($result))
@@ -47,17 +48,17 @@
                                         ?>
                                          <article class="box post post-excerpt">
                                             <header>
-                                                <h2><a href="#"><?php echo $row['head'] ?></a></h2>
+                                                <h2><a href="#"><?php echo htmlentities($row['head']) ?></a></h2>
                                             </header>
                                             <div class="info">
                                                 <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
                                             </div>
                                           <!--  <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a> -->
                                             <p>
-                                            <?php echo $row['date'] ?>
+                                            <?php echo htmlentities($row['date']) ?>
                                             </p>
                                             <p>
-                                            <?php echo $row['rec'] ?>
+                                            <?php echo htmlentities($row['rec']) ?>
                                             </p>
                                         </article>
                                         <?php
