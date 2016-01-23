@@ -18,8 +18,6 @@ if (isset($_POST['submit']))
         $record=mysqli_real_escape_string($dbc,$record);
         mysqli_set_charset($dbc, "utf8");
         $query = "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)";
-
-        $params=array($header,$record);
         if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)"))
         {
             mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);
@@ -29,20 +27,10 @@ if (isset($_POST['submit']))
             };
             mysqli_stmt_close($stmt_insert);
         };
-
-
-
-
-
-
-
-        mysqli_query($dbc,$query);
-
         echo '<p>Вы добавили запись.</p>';
         $header="";
         $record="";
 
-        mysqli_close($dbc);
     }
     else
     {
