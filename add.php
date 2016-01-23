@@ -17,7 +17,24 @@ if (isset($_POST['submit']))
         $header=mysqli_real_escape_string($dbc,$header);
         $record=mysqli_real_escape_string($dbc,$record);
         mysqli_set_charset($dbc, "utf8");
-        $query = "INSERT INTO recordtable VALUES (0, NOW(), '$header','$record')";
+        $query = "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)";
+
+        $params=array($header,$record);
+        if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)"))
+        {
+            mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);
+            if (!(mysqli_stmt_execute($stmt_insert)))
+            {
+                echo 'Ошибка при добавлении записи';
+            };
+            mysqli_stmt_close($stmt_insert);
+        };
+
+
+
+
+
+
 
         mysqli_query($dbc,$query);
 
