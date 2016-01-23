@@ -52,7 +52,10 @@
                                             <div class="info">
                                                 <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
                                             </div>
-                                            <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
+                                          <!--  <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a> -->
+                                            <p>
+                                            <?php echo $row['date'] ?>
+                                            </p>
                                             <p>
                                             <?php echo $row['rec'] ?>
                                             </p>
