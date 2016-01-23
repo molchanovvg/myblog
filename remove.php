@@ -30,10 +30,20 @@ require_once('connectvars.php');
             if ($dbc->connect_error) {
                 die('Error connection Mysql-server (' . $dbc->connect_error . ')');
             }
+
             $query = "DELETE FROM recordtable WHERE id = $id LIMIT 1";
-            mysqli_query($dbc,$query);
-            mysqli_close($dbc);
+
+            if ($stmt_delete = mysqli_prepare($dbc, "DELETE FROM recordtable WHERE id = ? LIMIT 1"))
+            {
+                mysqli_stmt_bind_param($stmt_delete, "i", $id);
+                if (!(mysqli_stmt_execute($stmt_delete)))
+                {
+                    echo 'Ошибка при удалении записи';
+                };
+                mysqli_stmt_close($stmt_delete);
+            };
             echo '<p>Рейтинг с заголовком ' . $head . ' был удален</p>';
+            mysqli_close($dbc);
         }
         else
         {

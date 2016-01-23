@@ -28,37 +28,43 @@ require_once('connectvars.php');
     if (isset($_POST['submit']))
     {
         $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        mysqli_set_charset($dbc, "utf8");
         if ($dbc->connect_error)
         {
             die('Error connection Mysql-server ('.$dbc->connect_error.')');
         }
         $head=mysqli_real_escape_string($dbc, $head);
         $rec=mysqli_real_escape_string($dbc, $rec);
-        $query = "UPDATE recordtable SET head = '$head', rec='$rec' WHERE id = '$id' ";
-        mysqli_query($dbc,$query);
+        if ($stmt_update = mysqli_prepare($dbc, "UPDATE recordtable SET head = ?, rec= ? WHERE id = ? "))
+        {
+            mysqli_stmt_bind_param($stmt_update, "ssi", $head, $rec, $id);
+            if (!(mysqli_stmt_execute($stmt_update)))
+            {
+                echo 'Ошибка при изменении записи';
+            };
+            mysqli_stmt_close($stmt_update);
+        };
         mysqli_close($dbc);
+
         echo '<p>Рейтинг с заголовком ' . $head . ' был изменен</p>';
 
     }
     else if (isset($id)&& isset($head))
         {
-           /* echo '<p>Вы уверены что хотите удалить?</p>';
-            echo '<br>';
-            echo '<p>'.$head.'</p>';
-            echo '<form method="post" action="remove.php">';
-            echo '<input type="radio" name="confirm" value="Yes" /> Yes';
-            echo '<input type="radio" name="confirm" value="no" checked="checked" /> No <br>';
-            echo '<input type="submit" value="submit" name="submit"/>';
-            echo '<input type="hidden" name="id" value="'.$id.'"/>';
-            echo '<input type="hidden" name="head" value="'.$head.'"/>';
-            echo '</form>';*/
             $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-            $query="select * from recordtable WHERE id=$id";
-            if ($result=$dbc->query($query))
+            if ($stmt_select = mysqli_prepare($dbc, "select * from recordtable WHERE id=?"))
             {
-                $row=mysqli_fetch_array($result);
-                $rec=$row['rec'];
-            }
+                mysqli_stmt_bind_param($stmt_select, "i", $id);
+                if (!(mysqli_stmt_execute($stmt_select)))
+                {
+                    echo 'Ошибка при выборе записи';
+                };
+                mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
+                mysqli_stmt_fetch($stmt_select);
+                mysqli_stmt_close($stmt_select);
+            };
+
+            mysqli_close($dbc);
         ?>
             <form method="post" action="edit.php">
                 <label for="header">Заголовок:</label><br>
