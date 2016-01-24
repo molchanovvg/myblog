@@ -94,7 +94,7 @@
                             <section class="box text-style1">
                                 <div class="inner">
                                     <p>
-                                        <strong>Myblog</strong> <br>Проект для изучения PHP
+                                        <strong>Myblog</strong> <br/>Проект для изучения PHP
                                     </p>
                                 </div>
                             </section>    
@@ -102,43 +102,31 @@
                             <nav id="nav">
                                 <ul>
                                     <!-- <li class="current"> .-->
-                                    <li><a href="login.php">Вход</a></li>
-                                    <li><a href="signup.php">Регистрация</a></li>
-                                    <li><a href="add.php">Добавление статей</a></li>
-                                    <li><a href="manage.php">Редактирование статей</a></li>
-                                    <li><a href="logout.php">Выход</a></li>
+
+                                    <?php
+                                    if (isset($_COOKIE['username']))
+                                    {
+                                        ?>
+                                        <!--<li><a href="login.php">Вход</a></li>
+                                        <li><a href="signup.php">Регистрация</a></li> -->
+                                        <li><a href="add.php">Добавление статей</a></li>
+                                        <li><a href="manage.php">Редактирование статей</a></li>
+                                        <li><a href="logout.php">Выход</a></li>
+                                        <?php
+                                    }
+                                    else
+                                    {
+                                        ?>
+                                        <li><a href="login.php">Вход</a></li>
+                                        <li><a href="signup.php">Регистрация</a></li>
+                                        <!--<li><a href="logout.php">Выход</a></li>-->
+                                        <?php
+                                    }
+
+                                    ?>
                                 </ul>
                             </nav>
 
-                    
-                     
-                    
-                        <!-- Recent Posts 
-                            <section class="box recent-posts">
-                                <header>
-                                    <h2>Recent Posts</h2>
-                                </header>
-                                <ul>
-                                    <li><a href="#">Lorem ipsum dolor</a></li>
-                                    <li><a href="#">Feugiat nisl aliquam</a></li>
-                                    <li><a href="#">Sed dolore magna</a></li>
-                                    <li><a href="#">Malesuada commodo</a></li>
-                                    <li><a href="#">Ipsum metus nullam</a></li>
-                                </ul>
-                            </section>  -->
-                    
-                        <!-- Recent Comments 
-                            <section class="box recent-comments">
-                                <header>
-                                    <h2>Recent Comments</h2>
-                                </header>
-                                <ul>
-                                    <li>case on <a href="#">Lorem ipsum dolor</a></li>
-                                    <li>molly on <a href="#">Sed dolore magna</a></li>
-                                    <li>case on <a href="#">Sed dolore magna</a></li>
-                                </ul>
-                            </section>  -->
-                    
                                                 
                         <!-- Copyright -->
                             <ul id="copyright">
