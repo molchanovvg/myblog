@@ -102,7 +102,7 @@
                             <nav id="nav">
                                 <ul>
                                     <!-- <li class="current"> .-->
-                                    <li><a href="signin.php">Вход</a></li>
+                                    <li><a href="login.php">Вход</a></li>
                                     <li><a href="signup.php">Регистрация</a></li>
                                     <li><a href="add.php">Добавление статей</a></li>
                                     <li><a href="manage.php">Редактирование статей</a></li>
