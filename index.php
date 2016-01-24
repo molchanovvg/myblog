@@ -106,6 +106,7 @@
                                     <li><a href="signup.php">Регистрация</a></li>
                                     <li><a href="add.php">Добавление статей</a></li>
                                     <li><a href="manage.php">Редактирование статей</a></li>
+                                    <li><a href="logout.php">Выход</a></li>
                                 </ul>
                             </nav>
 
