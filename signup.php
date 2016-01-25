@@ -28,7 +28,7 @@ $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 mysqli_stmt_close($stmt_select);
                 if (empty($username_sel))
                 {
-                    if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser VALUES (0, ?, SHA(?))"))
+                    if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser VALUES (0, ?, SHA(?),0)"))
                     {
                         mysqli_stmt_bind_param($stmt_update, "ss", $username, $password1);
                         if (!(mysqli_stmt_execute($stmt_update)))
@@ -37,7 +37,7 @@ $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                         }
                         else
                         {
-                            echo '<p>Ваша учетная запись создана. Вы можете <a href="signin.php">войти</a> в приложение.</p>';
+                            echo '<p>Ваша учетная запись создана. Вы можете <a href="login.php">войти</a> в приложение.</p>';
                         }
                         mysqli_stmt_close($stmt_update);
                         mysqli_close($dbc);
@@ -61,7 +61,7 @@ $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 <p>Введите имя и пароль для создания учетной записи</p>
 <form method="post" action="<?php echo $_SERVER['php_self'];?>">
     <fieldset> <legend>Входные данные</legend>
-        <label for="username">Имя пользователя</label>
+        <label for="username">Имя пользователя:</label>
         <input type="text" name="username" id="username" value="<?php if (!empty($username)) echo $username;?>"/><br/>
         <label for="password1">Пароль:</label>
         <input type="password" name="password1" id="password1"/><br/>

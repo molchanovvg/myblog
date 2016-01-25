@@ -23,7 +23,17 @@
         Set it to "right-sidebar" to, you guessed it, position it on the right.
     -->
     <body class="left-sidebar">
-    <?php 
+    <?php
+    session_start();
+      if (!isset($_SESSION['user_id']))
+      {
+          if (isset($_COOKIE['user_id']) && isset($_COOKIE['username']))
+          {
+              $_SESSION['user_id'] = $_COOKIE['user_id'];
+              $_SESSION['username'] = $_COOKIE['username'];
+          }
+      }
+
     require_once('connectvars.php');
     ?>
         <div id="wrapper">
@@ -104,22 +114,25 @@
                                     <!-- <li class="current"> .-->
 
                                     <?php
-                                    if (isset($_COOKIE['username']))
+                                    if (isset($_SESSION['username']))
                                     {
                                         ?>
-                                        <!--<li><a href="login.php">Вход</a></li>
-                                        <li><a href="signup.php">Регистрация</a></li> -->
-                                        <li><a href="add.php">Добавление статей</a></li>
-                                        <li><a href="manage.php">Редактирование статей</a></li>
+                                        <li>Вы можете оставлять комменты</li>
                                         <li><a href="logout.php">Выход</a></li>
                                         <?php
+                                        if ($_SESSION['right']=='1')
+                                        {
+                                            ?>
+                                            <li><a href="add.php">Добавление статей</a></li>
+                                            <li><a href="manage.php">Редактирование статей</a></li>
+                                            <?php
+                                        }
                                     }
                                     else
                                     {
                                         ?>
                                         <li><a href="login.php">Вход</a></li>
                                         <li><a href="signup.php">Регистрация</a></li>
-                                        <!--<li><a href="logout.php">Выход</a></li>-->
                                         <?php
                                     }
 

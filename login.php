@@ -1,8 +1,9 @@
 <?php
+session_start();
 require_once('connectvars.php');
 $error_msg="";
 
-if (!isset($_COOKIE['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     if (isset($_POST['submit']))
     {
         $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -15,7 +16,7 @@ if (!isset($_COOKIE['user_id'])) {
 
         if (!empty($user_username) && !empty($user_password))
         {
-            if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username FROM mybloguser WHERE username=? AND password=SHA(?)"))
+            if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
             {
                 mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                 if (!(mysqli_stmt_execute($stmt_select)))
@@ -23,7 +24,7 @@ if (!isset($_COOKIE['user_id'])) {
                     echo 'Ошибка при выборке данных';
                 }
                 mysqli_stmt_store_result($stmt_select);
-                mysqli_stmt_bind_result($stmt_select, $id, $name);
+                mysqli_stmt_bind_result($stmt_select, $id, $name, $userright);
                 mysqli_stmt_fetch($stmt_select);
 
 
@@ -32,8 +33,12 @@ if (!isset($_COOKIE['user_id'])) {
 
                 if (mysqli_stmt_num_rows($stmt_select)==1)
                 {
+                    $_SESSION['user_id']=$id;
+                    $_SESSION['username']=$name;
+                    $_SESSION['right']=$userright;
                     setcookie('user_id', $id, time() + (60*60*24*30));
                     setcookie('username', $name, time() + (60*60*24*30));
+                    setcookie('right', $userright, time() + (60*60*24*30));
                     $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                     header('Refresh: 2; url='.$home_url);
                     echo '<p>Вы вошли как '.$user_username.'</p>';
