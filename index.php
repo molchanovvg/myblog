@@ -18,10 +18,7 @@
         </noscript>
         <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
     </head>
-    <!--
-        Note: Set the body element's class to "left-sidebar" to position the sidebar on the left.
-        Set it to "right-sidebar" to, you guessed it, position it on the right.
-    -->
+
     <body class="left-sidebar">
     <?php
     session_start();
@@ -58,17 +55,17 @@
                                         ?>
                                          <article class="box post post-excerpt">
                                             <header>
-                                                <h2><a href="#"><?php echo htmlentities($row['head']) ?></a></h2>
+                                                <h2><a href="#"><?php echo html_entity_decode($row['head']) ?></a></h2>
                                             </header>
                                             <div class="info">
                                                 <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
                                             </div>
                                           <!--  <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a> -->
                                             <p>
-                                            <?php echo htmlentities($row['date']) ?>
+                                            <?php echo html_entity_decode($row['date']) ?>
                                             </p>
                                             <p>
-                                            <?php echo htmlentities($row['rec']) ?>
+                                            <?php echo html_entity_decode($row['rec']) ?>
                                             </p>
                                         </article>
                                         <?php
@@ -97,55 +94,9 @@
                         </div>
                     </div>
 
-            <div id="sidebar">
-                <!-- Logo -->
-                            <h1 id="logo"><a href="#">Myblog</a></h1>
-                       <!-- Text -->
-                            <section class="box text-style1">
-                                <div class="inner">
-                                    <p>
-                                        <strong>Myblog</strong> <br/>Проект для изучения PHP
-                                    </p>
-                                </div>
-                            </section>    
-                        <!-- Nav -->
-                            <nav id="nav">
-                                <ul>
-                                    <!-- <li class="current"> .-->
-
-                                    <?php
-                                    if (isset($_SESSION['username']))
-                                    {
-                                        ?>
-                                        <li>Вы можете оставлять комменты</li>
-                                        <li><a href="logout.php">Выход</a></li>
-                                        <?php
-                                        if ($_SESSION['right']=='1')
-                                        {
-                                            ?>
-                                            <li><a href="add.php">Добавление статей</a></li>
-                                            <li><a href="manage.php">Редактирование статей</a></li>
-                                            <?php
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ?>
-                                        <li><a href="login.php">Вход</a></li>
-                                        <li><a href="signup.php">Регистрация</a></li>
-                                        <?php
-                                    }
-
-                                    ?>
-                                </ul>
-                            </nav>
-
-                                                
-                        <!-- Copyright -->
-                            <ul id="copyright">
-                                <li>&copy; Molchanov VG</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                            </ul>
-            </div>
+            <?php
+            require_once('sidebar_t.php');
+            ?>
         </div>
     </body>
 </html>
