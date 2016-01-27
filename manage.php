@@ -1,22 +1,9 @@
 <?php
-$PageName='Управление';
+$PageTitle='Управление';
 require_once('header_t.php');
-session_start();
-if (!isset($_SESSION['user_id']))
-{
-    if (isset($_COOKIE['user_id']) && isset($_COOKIE['username']))
-    {
-        $_SESSION['user_id'] = $_COOKIE['user_id'];
-        $_SESSION['username'] = $_COOKIE['username'];
-    }
-    else
-    {
-
-        exit('У вас нет доступа к данной странице.');
-    }
-}
-
 require_once('connectvars.php');
+require_once('connectdb_t.php');
+require_once('authss_t.php');
 ?>
 
 <div id="wrapper">

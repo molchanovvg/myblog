@@ -1,22 +1,16 @@
 <?php
-$PageName='Добавление поста';
+$PageTitle='Добавление поста';
 require_once('header_t.php');
-session_start();
-if (!isset($_SESSION['user_id']))
-{
-    if (isset($_COOKIE['user_id']) && isset($_COOKIE['username']))
-    {
-        $_SESSION['user_id'] = $_COOKIE['user_id'];
-        $_SESSION['username'] = $_COOKIE['username'];
-    }
-    else
-    {
+require_once('connectvars.php');
+require_once('connectdb_t.php');
+require_once('authss_t.php');
 
-        exit('У вас нет доступа к данной странице.');
-    }
+if ($_SESSION['right'] != 1)
+{
+    exit('У вас нет доступа к данной странице.');
 }
 
-require_once('connectvars.php');
+
 ?>
     <div id="wrapper">
 

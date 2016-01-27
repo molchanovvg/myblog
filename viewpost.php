@@ -1,16 +1,9 @@
 <?php
-$PageName='Просмотр записи';
+$PageTitle='Просмотр записи';
 require_once('header_t.php');
-session_start();
-if (!isset($_SESSION['user_id']))
-{
-    if (isset($_COOKIE['user_id']) && isset($_COOKIE['username']))
-    {
-        $_SESSION['user_id']=$_COOKIE['user_id'];
-        $_SESSION['username']=$_COOKIE['username'];
-    }
-}
 require_once('connectvars.php');
+require_once('connectdb_t.php');
+require_once('authss_t.php');
 ?>
 <div id="wrapper">
 
@@ -23,13 +16,11 @@ require_once('connectvars.php');
             if (isset($_GET['id']))
             {
                 $id=$_GET['id'];
-
             }
             else
             {
                 exit();
             }
-
             $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
             mysqli_set_charset($dbc,'utf8');
             if ($dbc -> connect_error)
@@ -51,38 +42,32 @@ require_once('connectvars.php');
                     <header>
                         <h2><?php echo html_entity_decode($head) ?></h2>
                     </header>
-                <div class="info">
-                    <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
-                </div>
-
-                <p>
-                    <?php echo html_entity_decode($date) ?>
-                </p>
-                <p>
-                    <?php echo html_entity_decode($rec) ?>
-                </p>
+                    <div class="info">
+                        <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
+                    </div>
+                    <p><?php echo html_entity_decode($date)?></p>
+                    <p><?php echo html_entity_decode($rec) ?></p>
                 </article>
-                <?php
+            <?php
             };
-
             mysqli_close($dbc);
+            if (isset($_SESSION['user_id']))
+            {
                 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <!-- New commit -->
+                <p>Добавить комментарий</p>
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <label for="commit">Комментарий:</label><br>
+                    <textarea name="commit" cols="40" rows="10" id="commit"></textarea><br>
+                    <input type="submit" value="Прокомментировать" name="submit">
+                </form>
+                <?php
+                if (isset($_POST['submit']))
+                {
+                   echo $_POST['commit'] ;
+                }
+            }
+            ?>
 
         </div>
     </div>

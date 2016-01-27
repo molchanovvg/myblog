@@ -1,18 +1,11 @@
 
     <?php
-    $PageName='MyBlog';
-    require_once('header_t.php');
-    session_start();
-      if (!isset($_SESSION['user_id']))
-      {
-          if (isset($_COOKIE['user_id']) && isset($_COOKIE['username']))
-          {
-              $_SESSION['user_id'] = $_COOKIE['user_id'];
-              $_SESSION['username'] = $_COOKIE['username'];
-          }
-      }
 
+    $PageTitle='Главная';
+    require_once('header_t.php');
     require_once('connectvars.php');
+    require_once('connectdb_t.php');
+    require_once('authss_t.php');
     ?>
         <div id="wrapper">
             
@@ -22,13 +15,7 @@
                     
                             <!-- Post -->
                             <?php
-                                $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                                if ($dbc -> connect_error)
-                                {
-                                    die('Error connection Mysql-server ('.$dbc->connect_error.')');
-                                }
                                 $query = "select * from recordtable order by date desc";
-                                mysqli_set_charset($dbc,'utf8');
                                 if ($result=$dbc->query($query))
                                 {
                                     while ($row=mysqli_fetch_array($result))
@@ -41,7 +28,6 @@
                                             <div class="info">
                                                 <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
                                             </div>
-                                          <!--  <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a> -->
                                             <p>
                                             <?php echo html_entity_decode($row['date']) ?>
                                             </p>

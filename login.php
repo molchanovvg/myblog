@@ -1,9 +1,9 @@
 <?php
-    $PageName='Вход в приложение';
+    $PageTitle='Вход в приложение';
     require_once('header_t.php');
-session_start();
-require_once('connectvars.php');
-$error_msg="";
+    session_start();
+    require_once('connectvars.php');
+    $error_msg="";
 ?>
 
 
@@ -38,19 +38,12 @@ $error_msg="";
                                         mysqli_stmt_store_result($stmt_select);
                                         mysqli_stmt_bind_result($stmt_select, $id, $name, $userright);
                                         mysqli_stmt_fetch($stmt_select);
-
-
-
-
-
                                         if (mysqli_stmt_num_rows($stmt_select)==1)
                                         {
                                             $_SESSION['user_id']=$id;
                                             $_SESSION['username']=$name;
                                             $_SESSION['right']=$userright;
                                             setcookie('user_id', $id, time() + (60*60*24*30));
-                                            setcookie('username', $name, time() + (60*60*24*30));
-                                            setcookie('right', $userright, time() + (60*60*24*30));
                                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                                             header('Refresh: 2; url='.$home_url);
                                             echo '<p>Вы вошли как '.$user_username.'</p>';
@@ -71,11 +64,6 @@ $error_msg="";
                                 }
                             }
                         }
-
-
-
-
-
 
                          if (empty($_COOKIE['user_id']))
                          {
