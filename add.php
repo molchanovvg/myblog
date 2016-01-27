@@ -27,11 +27,8 @@ if ($_SESSION['right'] != 1)
 
                                     if (!empty($header)&& !empty($record))
                                     {
-                                        //connect db
-                                        $dbc = new mysqli(DB_HOST,DB_USER, DB_PASSWORD, DB_NAME);
                                         $header=htmlentities(mysqli_real_escape_string($dbc,$header));
                                         $record=htmlentities(mysqli_real_escape_string($dbc,$record));
-                                        mysqli_set_charset($dbc, "utf8");
                                         if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)"))
                                         {
                                             mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);
