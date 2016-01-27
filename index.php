@@ -36,7 +36,7 @@
                                         ?>
                                          <article class="box post post-excerpt">
                                             <header>
-                                                <h2><a href="#"><?php echo html_entity_decode($row['head']) ?></a></h2>
+                                                <h2><?php echo html_entity_decode($row['head']) ?></h2>
                                             </header>
                                             <div class="info">
                                                 <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
@@ -48,7 +48,10 @@
                                             <p>
                                             <?php echo html_entity_decode($row['rec']) ?>
                                             </p>
-                                        </article>
+                                             <?php
+                                             echo '<a href=viewpost.php?id=' . $row['id'] . '>Просмотреть полностью</a>';
+                                             ?>
+                                          </article>
                                         <?php
                                     }
                                 }

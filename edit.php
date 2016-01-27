@@ -61,7 +61,7 @@ require_once('connectvars.php');
                                     };
                                     mysqli_close($dbc);
 
-                                    echo '<p>Рейтинг с заголовком ' . $head . ' был изменен</p>';
+                                    echo '<p>Пост с заголовком ' . $head . ' был изменен</p>';
 
                                 }
                                 else if (isset($id)&& isset($head))
