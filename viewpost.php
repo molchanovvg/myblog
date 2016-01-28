@@ -26,9 +26,12 @@ require_once('authss_t.php');
                     mysqli_stmt_close($stmt_insert);
                 };
                 echo '<p>Вы добавили запись.</p>';
+
+                mysqli_close($dbc);
+                unset($_SESSION['postid']);
                 $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_SESSION['postid'].'';
                 header('Refresh: 1; url='.$home_url);
-                mysqli_close($dbc);
+
             }
             if (isset($_GET['id']))
             {
@@ -56,7 +59,6 @@ require_once('authss_t.php');
                     </article>
                     <?php
                 };
-                mysqli_close($dbc);
 
                 if (isset($_SESSION['user_id']))
                 {
@@ -70,13 +72,35 @@ require_once('authss_t.php');
                     </form>
                     <?php
                 }
-                /*вывод всех комментов */
+                if ($stmt_select = mysqli_prepare($dbc, "SELECT t1.username, t2.date, t2.comment FROM mybloguser as t1, commenttable as t2 WHERE t2.postid=?  AND t2.userid = t1.userid"))
+                {
+                    mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
+                    if (!(mysqli_stmt_execute($stmt_select)))
+                    {
+                        echo 'Ошибка при выборе записи';
+                    };
+                    mysqli_stmt_bind_result($stmt_select, $name, $date, $comm);
+                    while (mysqli_stmt_fetch($stmt_select))
+                    {
+                        ?>
+                                        <article class="box post post-excerpt">
+                                            <header>
+                                                <h1><?php echo html_entity_decode($name).'  '.$date ?></h1>
+                                            </header>
+                                            <p>
+                                                <?php echo html_entity_decode($comm) ?>
+                                            </p>
+                                        </article>
+                        <?php
+                    };
+
+                    mysqli_stmt_close($stmt_select);
+
+                };
+
+                   mysqli_close($dbc);
             }
-
-
-
-
-            ?>
+        ?>
 
         </div>
     </div>

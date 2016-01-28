@@ -42,7 +42,7 @@
                                     }
                                 }
                                 mysqli_close($dbc);
-                                ?>
+                            ?>
 
                         </div>
                     </div>

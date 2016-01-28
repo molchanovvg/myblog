@@ -1,8 +1,9 @@
 <?php
     $PageTitle='Вход в приложение';
     require_once('header_t.php');
-    session_start();
     require_once('connectvars.php');
+    require_once('connectdb_t.php');
+    session_start();
     $error_msg="";
 ?>
 
@@ -13,23 +14,17 @@
     <div id="content">
         <div class="inner">
                         <?php
-
-
                         if (!isset($_SESSION['user_id'])) {
                             if (isset($_POST['submit']))
                             {
-                                $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                                if ($dbc -> connect_error)
-                                {
-                                    die('Error connection Mysql-server ('.$dbc->connect_error.')');
-                                }
                                 $user_username=mysqli_real_escape_string($dbc, trim($_POST['username']));
                                 $user_password=mysqli_real_escape_string($dbc, trim($_POST['password']));
-
                                 if (!empty($user_username) && !empty($user_password))
                                 {
+                                    $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
                                     {
+
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
@@ -38,6 +33,7 @@
                                         mysqli_stmt_store_result($stmt_select);
                                         mysqli_stmt_bind_result($stmt_select, $id, $name, $userright);
                                         mysqli_stmt_fetch($stmt_select);
+
                                         if (mysqli_stmt_num_rows($stmt_select)==1)
                                         {
                                             $_SESSION['user_id']=$id;
@@ -64,20 +60,22 @@
                                 }
                             }
                         }
-
-                         if (empty($_COOKIE['user_id']))
-                         {
+                        if (empty($_COOKIE['user_id']))
+                        {
                              echo $error_msg;
 
                         ?>
                         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                             <fieldset>
                                 <legend>Вход в блог</legend>
-                                <label for="username">Имя пользователя:</label>
-                                <input type="text" name="username" value="<?php if (!empty($user_username)) echo $user_username; ?>"/><br/>
-                                <label for="password">Пароль:</label>
-                                <input type="password" name="password"/><br/>
+                                <label for="username">Имя пользователя:
+                                    <input type="text" name="username" value="<?php if (!empty($user_username)) echo $user_username; ?>"/>
+                                </label>
+                                <label for="password">Пароль:
+                                    <input type="password" name="password"/>
+                                </label>
                             </fieldset>
+                            <br>
                             <input type="submit" value="Войти" name="submit"/>
                         </form>
                         <?php
@@ -92,9 +90,7 @@
         </div>
     </div>
 
-<?php
-require_once('sidebar_t.php');
-?>
+<?php require_once('sidebar_t.php'); ?>
 </div>
 </body>
 </html>
