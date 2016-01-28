@@ -15,6 +15,7 @@ require_once('authss_t.php');
             <?php
             if (!(isset($_GET['id'])) && (isset($_POST['submit'])))
             {
+                $commit=strip_tags($commit);
                 $commit=htmlentities(mysqli_real_escape_string($dbc,$_POST['commit']));
                 if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable VALUES (0, NOW(), ?, ?, ?)"))
                 {

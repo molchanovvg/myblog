@@ -26,11 +26,14 @@
                                                 <h2><?php echo html_entity_decode($row['head']) ?></h2>
                                             </header>
                                             <div class="info">
-                                                <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
+
+                                                <span class="date">
+                                                    <span class="month"><?php echo date_create($row['date'])->Format('M') ?><span>y</span></span>
+                                                    <span class="day"><?php echo date_create($row['date'])->Format('d') ?></span>
+                                                    <span class="year"><?php echo date_create($row['date'])->Format('y') ?></span>
+                                                </span>
                                             </div>
-                                            <p>
-                                            <?php echo html_entity_decode($row['date']) ?>
-                                            </p>
+                                
                                             <p>
                                             <?php echo html_entity_decode($row['rec']) ?>
                                             </p>
