@@ -22,13 +22,13 @@ if ($_SESSION['right'] != 1)
                             <?php
                                 if (isset($_POST['submit']))
                                 {
-                                    $header=trim($_POST['header']);
-                                    $record=trim($_POST['record']);
+                                    $header=strip_tags(trim($_POST['header']));
+                                    $record=strip_tags(trim($_POST['record']));
 
                                     if (!empty($header)&& !empty($record))
                                     {
-                                        $header=htmlentities(mysqli_real_escape_string($dbc,$header));
-                                        $record=htmlentities(mysqli_real_escape_string($dbc,$record));
+                                        $header=mysqli_real_escape_string($dbc,$header);
+                                        $record=mysqli_real_escape_string($dbc,$record);
                                         if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)"))
                                         {
                                             mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);

@@ -14,9 +14,9 @@ require_once('connectvars.php');
                                 $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                 if (isset($_POST['submit']))
                                 {
-                                    $username=mysqli_real_escape_string($dbc, trim($_POST['username']));
-                                    $password1=mysqli_real_escape_string($dbc, trim($_POST['password1']));
-                                    $password2=mysqli_real_escape_string($dbc, trim($_POST['password2']));
+                                    $username=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['username'])));
+                                    $password1=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['password1'])));
+                                    $password2=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['password2'])));
                                     if (!empty($username) && !empty($password1) && !empty($password2) && $password1==$password2)
                                     {
                                         // проверка нет ли уже такого пользователя

@@ -28,8 +28,8 @@ if ($_SESSION['right'] != 1)
                                 else if (isset($_POST['id'])&& isset($_POST['header']))
                                      {
                                          $id=$_POST['id'];
-                                         $head=trim($_POST['header']);
-                                         $rec=trim($_POST['record']);
+                                         $head=strip_tags(trim($_POST['header']));
+                                         $rec=strip_tags(trim($_POST['record']));
                                      }
                                      else
                                      {

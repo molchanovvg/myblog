@@ -23,7 +23,7 @@
                                         ?>
                                          <article class="box post post-excerpt">
                                             <header>
-                                                <h2><?php echo html_entity_decode($row['head']) ?></h2>
+                                                <h2><?php echo $row['head'] ?></h2>
                                             </header>
                                             <div class="info">
 
@@ -35,7 +35,7 @@
                                             </div>
 
                                             <p>
-                                            <?php echo html_entity_decode($row['rec']) ?>
+                                            <?php echo $row['rec'] ?>
                                             </p>
                                              <?php
                                              echo '<a href="/viewpost.php?id=' . $row['id'] . '"">Просмотреть полностью</a>';

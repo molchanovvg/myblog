@@ -18,21 +18,21 @@
             {
                 ?>
                 <li>Вы можете оставлять комменты</li>
-                <li><a href="logout.php">Выход</a></li>
+                <li><a href="/logout.php">Выход</a></li>
                 <?php
                 if ($_SESSION['right']=='1')
                 {
                     ?>
-                    <li><a href="add.php">Добавление статей</a></li>
-                    <li><a href="manage.php">Редактирование статей</a></li>
+                    <li><a href="/add.php">Добавление статей</a></li>
+                    <li><a href="/manage.php">Редактирование статей</a></li>
                     <?php
                 }
             }
             else
             {
                 ?>
-                <li><a href="login.php">Вход</a></li>
-                <li><a href="signup.php">Регистрация</a></li>
+                <li><a href="/login.php">Вход</a></li>
+                <li><a href="/signup.php">Регистрация</a></li>
                 <?php
             }
 

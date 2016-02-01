@@ -1,4 +1,5 @@
 <?php
+
 $PageTitle='Просмотр записи';
 require_once('header_t.php');
 require_once('connectvars.php');
@@ -15,8 +16,7 @@ require_once('authss_t.php');
             <?php
             if (!(isset($_GET['id'])) && (isset($_POST['submit'])))
             {
-                $commit=strip_tags($commit);
-                $commit=htmlentities(mysqli_real_escape_string($dbc,$_POST['commit']));
+                $commit=strip_tags(mysqli_real_escape_string($dbc,$_POST['commit']));
                 if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable VALUES (0, NOW(), ?, ?, ?)"))
                 {
                     mysqli_stmt_bind_param($stmt_insert, "sss",$_SESSION['postid'] , $_SESSION['user_id'], $commit);
@@ -44,19 +44,24 @@ require_once('authss_t.php');
                     {
                         echo 'Ошибка при выборе записи';
                     };
+
                     mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
                     mysqli_stmt_fetch($stmt_select);
                     mysqli_stmt_close($stmt_select);
                     ?>
                     <article class="box post post-excerpt">
                         <header>
-                            <h2><?php echo html_entity_decode($head) ?></h2>
+                            <h2><?php echo $head ?></h2>
                         </header>
                         <div class="info">
-                            <span class="date"><span class="month">Jul<span>y</span></span> <span class="day">14</span><span class="year">, 2014</span></span>
+                            <span class="date">
+                                <span class="month"><?php echo date_create($row['date'])->Format('M') ?></span>
+                                <span class="day"><?php echo date_create($row['date'])->Format('d') ?></span>
+                                <span class="year"><?php echo date_create($row['date'])->Format('y') ?></span>
+                            </span>
                         </div>
-                        <p><?php echo html_entity_decode($date)?></p>
-                        <p><?php echo html_entity_decode($rec) ?></p>
+                        <p><?php echo $date?></p>
+                        <p><?php echo $rec ?></p>
                     </article>
                     <?php
                 };
@@ -86,10 +91,10 @@ require_once('authss_t.php');
                         ?>
                                         <article class="box post post-excerpt">
                                             <header>
-                                                <h1><?php echo html_entity_decode($name).'  '.$date ?></h1>
+                                                <h1><?php echo $name.'  '.$date ?></h1>
                                             </header>
                                             <p>
-                                                <?php echo html_entity_decode($comm) ?>
+                                                <?php echo $comm?>
                                             </p>
                                         </article>
                         <?php
