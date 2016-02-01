@@ -31,7 +31,7 @@ require_once('authss_t.php');
                 mysqli_close($dbc);
                 unset($_SESSION['postid']);
                 $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_SESSION['postid'].'';
-                header('Refresh: 1; url='.$home_url);
+                header('Location: '.$home_url);
 
             }
             if (isset($_GET['id']))

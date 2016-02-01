@@ -33,7 +33,7 @@ if ($_SESSION['right'] != 1)
                                      }
                                      else
                                      {
-                                         echo '<p>Нет данных для редактирования.</p>';
+                                         exit('Нет данных для редактирования');
                                      }
                                 if (isset($_POST['submit']))
                                 {
@@ -45,6 +45,7 @@ if ($_SESSION['right'] != 1)
                                     }
                                     $head=mysqli_real_escape_string($dbc, $head);
                                     $rec=mysqli_real_escape_string($dbc, $rec);
+                                    // проверка на наличие такой записи add
                                     if ($stmt_update = mysqli_prepare($dbc, "UPDATE recordtable SET head = ?, rec= ? WHERE id = ? "))
                                     {
                                         mysqli_stmt_bind_param($stmt_update, "ssi", $head, $rec, $id);
@@ -55,8 +56,10 @@ if ($_SESSION['right'] != 1)
                                         mysqli_stmt_close($stmt_update);
                                     };
                                     mysqli_close($dbc);
+                                    echo '<p>Статья с заголовком ' . $head . ' была изменена</p>';
+                                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/viewpost.php?id='.$id.'';
+                                    header('Location: '.$home_url);
 
-                                    echo '<p>Пост с заголовком ' . $head . ' был изменен</p>';
 
                                 }
                                 else if (isset($id)&& isset($head))

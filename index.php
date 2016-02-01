@@ -28,17 +28,17 @@
                                             <div class="info">
 
                                                 <span class="date">
-                                                    <span class="month"><?php echo date_create($row['date'])->Format('M') ?><span>y</span></span>
+                                                    <span class="month"><?php echo date_create($row['date'])->Format('M') ?></span>
                                                     <span class="day"><?php echo date_create($row['date'])->Format('d') ?></span>
                                                     <span class="year"><?php echo date_create($row['date'])->Format('y') ?></span>
                                                 </span>
                                             </div>
-                                
+
                                             <p>
                                             <?php echo html_entity_decode($row['rec']) ?>
                                             </p>
                                              <?php
-                                             echo '<a href=viewpost.php?id=' . $row['id'] . '>Просмотреть полностью</a>';
+                                             echo '<a href="/viewpost.php?id=' . $row['id'] . '"">Просмотреть полностью</a>';
                                              ?>
                                           </article>
                                         <?php

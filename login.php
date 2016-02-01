@@ -41,7 +41,7 @@
                                             $_SESSION['right']=$userright;
                                             setcookie('user_id', $id, time() + (60*60*24*30));
                                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
-                                            header('Refresh: 2; url='.$home_url);
+                                            header('Location: '.$home_url);
                                             echo '<p>Вы вошли как '.$user_username.'</p>';
 
                                         }
@@ -82,9 +82,9 @@
                         }
                         else
                         {
-                            echo ('<p>Вы вошли в приложение как '.$_COOKIE['username'].'.</p>');
+                            echo ('<p>Вы вошли в приложение как '.$_SESSION['username'].'.</p>'); // в принице с мгновенным редиректом можно  и убрать
                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
-                            header('Refresh: 2; url='.$home_url);
+                            header('Location: '.$home_url);
                         }
                         ?>
         </div>
