@@ -22,8 +22,9 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
                             <?php
                                 $header=strip_tags(trim($_POST['header']));
                                 $record=strip_tags(trim($_POST['record']));
-                                if (isset($_POST['submit']) && (!empty($header)&& !empty($record)))
+                                if (isset($_POST['submit']) && (!empty($_POST['header'])&& !empty($_POST['record'])))
                                 {
+
                                         $header=mysqli_real_escape_string($dbc,$header);
                                         $record=mysqli_real_escape_string($dbc,$record);
                                         if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)"))
