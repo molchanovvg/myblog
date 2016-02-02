@@ -14,29 +14,27 @@ require_once('authss_t.php');
 
 
             <?php
-            if (!(isset($_GET['id'])) && (isset($_POST['submit'])))
+
+            if (!(isset($_GET['id'])) &&(isset($_POST['submit']))) //
             {
                 $commit=strip_tags(mysqli_real_escape_string($dbc,$_POST['commit']));
                 if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable VALUES (0, NOW(), ?, ?, ?)"))
                 {
-                    mysqli_stmt_bind_param($stmt_insert, "sss",$_SESSION['postid'] , $_SESSION['user_id'], $commit);
+                    mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
                     if (!(mysqli_stmt_execute($stmt_insert)))
                     {
                         echo 'Ошибка при добавлении записи';
                     };
                     mysqli_stmt_close($stmt_insert);
                 };
-                echo '<p>Вы добавили запись.</p>';
-
+                echo '<p>Вы добавили комментарий.</p>';
                 mysqli_close($dbc);
-                unset($_SESSION['postid']);
-                $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_SESSION['postid'].'';
+                $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_POST['id'].'';
                 header('Location: '.$home_url);
 
             }
             if (isset($_GET['id']))
             {
-                $_SESSION['postid']=$_GET['id'];
                 if ($stmt_select = mysqli_prepare($dbc, "select * from recordtable WHERE id=?"))
                 {
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
@@ -65,19 +63,6 @@ require_once('authss_t.php');
                     </article>
                     <?php
                 };
-
-                if (isset($_SESSION['user_id']))
-                {
-                    ?>
-                    <!-- New commit -->
-                    <p>Добавить комментарий</p>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <label for="commit">Комментарий:</label><br>
-                        <textarea name="commit" cols="40" rows="10" id="commit"></textarea><br>
-                        <input type="submit" value="Прокомментировать" name="submit">
-                    </form>
-                    <?php
-                }
                 if ($stmt_select = mysqli_prepare($dbc, "SELECT t1.username, t2.date, t2.comment FROM mybloguser as t1, commenttable as t2 WHERE t2.postid=?  AND t2.userid = t1.userid"))
                 {
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
@@ -89,20 +74,34 @@ require_once('authss_t.php');
                     while (mysqli_stmt_fetch($stmt_select))
                     {
                         ?>
-                                        <article class="box post post-excerpt">
-                                            <header>
-                                                <h1><?php echo $name.'  '.$date ?></h1>
-                                            </header>
-                                            <p>
-                                                <?php echo $comm?>
-                                            </p>
-                                        </article>
+                        <article class="box post post-excerpt">
+                            <header>
+                                <h1><?php echo $name.'  '.$date ?></h1>
+                            </header>
+                            <p>
+                                <?php echo $comm?>
+                            </p>
+                        </article>
                         <?php
                     };
 
                     mysqli_stmt_close($stmt_select);
 
                 };
+                if (isset($_SESSION['user_id']))
+                {
+                    ?>
+                    <!-- New commit -->
+                    <p>Добавить комментарий</p>
+                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                        <label for="commit">Комментарий:</label><br>
+                        <textarea name="commit" cols="40" rows="10" id="commit"></textarea><br>
+                        <input type="submit" value="Прокомментировать" name="submit">
+                        <input type="hidden" value="<?php echo $_GET['id']?>" name="id">
+                    </form>
+                    <?php
+                }
+
 
                    mysqli_close($dbc);
             }

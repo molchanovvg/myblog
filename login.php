@@ -85,7 +85,7 @@
                         {
                             echo ('<p>Вы вошли в приложение как '.$_SESSION['username'].'.</p>'); // в принице с мгновенным редиректом можно  и убрать
                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
-                            header('Location: '.$home_url);
+                           // header('Location: '.$home_url);
                         }
                         ?>
         </div>
