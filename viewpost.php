@@ -14,7 +14,7 @@ session_start();
             if (!(isset($_GET['id'])) &&(isset($_POST['submit']))) //
             {
                 $commit=strip_tags(mysqli_real_escape_string($dbc,$_POST['commit']));
-                if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable VALUES (0, NOW(), ?, ?, ?)"))
+                if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(id, date, head, rec) VALUES (0, NOW(), ?, ?, ?)"))
                 {
                     mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
                     if (!(mysqli_stmt_execute($stmt_insert)))
@@ -32,7 +32,7 @@ session_start();
             if (isset($_GET['id']))
             {
 
-                if ($stmt_select = mysqli_prepare($dbc, "select * from recordtable WHERE id=?"))
+                if ($stmt_select = mysqli_prepare($dbc, "select id, date, head, rec from recordtable WHERE id=?"))
                 {
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
                     if (!(mysqli_stmt_execute($stmt_select)))

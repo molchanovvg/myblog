@@ -11,7 +11,6 @@ $form_visible=true;
                     <div id="content">
                         <div class="inner">
                             <?php
-                                //$dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                 if (isset($_POST['submit']))
                                 {
                                     $username=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['username'])));
@@ -20,7 +19,7 @@ $form_visible=true;
                                     if (!empty($username) && !empty($password1) && !empty($password2) && $password1==$password2)
                                     {
                                         // проверка нет ли уже такого пользователя
-                                        if ($stmt_select = mysqli_prepare($dbc, "select * from mybloguser WHERE username=?"))
+                                        if ($stmt_select = mysqli_prepare($dbc, "select userid, username, password, userright from mybloguser WHERE username=?"))
                                         {
                                             mysqli_stmt_bind_param($stmt_select, "s", $username);
                                             if (!(mysqli_stmt_execute($stmt_select)))
@@ -32,7 +31,7 @@ $form_visible=true;
                                             mysqli_stmt_close($stmt_select);
                                             if (empty($username_sel))
                                             {
-                                                if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser VALUES (0, ?, SHA(?),0)"))
+                                                if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser(userid, username, password, userright) VALUES (0, ?, SHA(?),0)"))
                                                 {
                                                     mysqli_stmt_bind_param($stmt_update, "ss", $username, $password1);
                                                     if (!(mysqli_stmt_execute($stmt_update)))
