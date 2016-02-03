@@ -1,9 +1,8 @@
 <?php
 $PageName='Страница регистрации';
 require_once('header_t.php');
-
-
 require_once('connectvars.php');
+$form_visible=true;
 ?>
 <div id="wrapper">
 
@@ -42,15 +41,15 @@ require_once('connectvars.php');
                                                     else
                                                     {
                                                         echo '<p>Ваша учетная запись создана. Вы можете <a href="login.php">войти</a> в приложение.</p>';
+                                                        $form_visible=false;
+
                                                     }
                                                     mysqli_stmt_close($stmt_update);
                                                     mysqli_close($dbc);
-                                                    exit();
                                                 };
                                             }
                                             else
                                             {
-                                                // такой пользователь есть
                                                 echo '<p>Такой пользователь уже есть, введите другое имя.</p>';
                                                 $username="";
                                             }
@@ -61,18 +60,26 @@ require_once('connectvars.php');
                                         echo '<p>Проверьте введеные данные</p>';
                                     }
                                 }
+                                if ($form_visible)
+                                {
+                                    ?>
+
+                                    <form method="post" action="<?php echo $_SERVER['php_self']; ?>">
+                                        <fieldset>
+                                            <legend>Введите имя и пароль для создания учетной записи</legend>
+                                            <label for="username">Имя пользователя:</label>
+                                            <input type="text" name="username" id="username"
+                                                   value="<?php if (!empty($username)) echo $username; ?>"/><br/>
+                                            <label for="password1">Пароль:</label>
+                                            <input type="password" name="password1" id="password1"/><br/>
+                                            <label for="password2">Подтверждение Пароля:</label>
+                                            <input type="password" name="password2" id="password2"/><br/>
+                                        </fieldset>
+                                        <input type="submit" value="Создать" name="submit">
+                                    </form>
+                                    <?php
+                                }
                             ?>
-                            <form method="post" action="<?php echo $_SERVER['php_self'];?>">
-                                <fieldset> <legend>Введите имя и пароль для создания учетной записи</legend>
-                                    <label for="username">Имя пользователя:</label>
-                                    <input type="text" name="username" id="username" value="<?php if (!empty($username)) echo $username;?>"/><br/>
-                                    <label for="password1">Пароль:</label>
-                                    <input type="password" name="password1" id="password1"/><br/>
-                                    <label for="password2">Подтверждение Пароля:</label>
-                                    <input type="password" name="password2" id="password2"/><br/>
-                                </fieldset>
-                                <input type="submit" value="Создать" name="submit">
-                            </form>
                         </div>
                     </div>
 
