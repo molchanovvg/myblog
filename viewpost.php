@@ -35,6 +35,7 @@ require_once('authss_t.php');
             }
             if (isset($_GET['id']))
             {
+
                 if ($stmt_select = mysqli_prepare($dbc, "select * from recordtable WHERE id=?"))
                 {
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
@@ -42,7 +43,6 @@ require_once('authss_t.php');
                     {
                         echo 'Ошибка при выборе записи';
                     };
-
                     mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
                     mysqli_stmt_fetch($stmt_select);
                     mysqli_stmt_close($stmt_select);
