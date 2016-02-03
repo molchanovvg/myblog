@@ -3,33 +3,27 @@ $PageTitle='Удаление поста';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
-require_once('authss_t.php');
 session_start();
 
     if (isset($_SESSION)&& $_SESSION['right'] != 1)
     {
         exit('У вас нет доступа к данной странице.');
     }
-
-
 ?>
-<div id="wrapper" xmlns="http://www.w3.org/1999/html">
-
+<div id="wrapper">
             <!-- Content -->
                     <div id="content">
                         <div class="inner">
-
-
                             <?php
                                 if (isset($_POST['submit']))
                                 {
                                     echo $_POST['id'];
                                     if ($_POST['confirm'] == 'Yes') {
-                                        $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                                      /*  $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                         if ($dbc->connect_error) {
                                             die('Error connection Mysql-server (' . $dbc->connect_error . ')');
                                         }
-
+*/
                                         if ($stmt_delete = mysqli_prepare($dbc, "DELETE FROM recordtable WHERE id = ? LIMIT 1"))
                                         {
                                             mysqli_stmt_bind_param($stmt_delete, "i", $_POST['id']);
