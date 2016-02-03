@@ -1,19 +1,14 @@
-
     <?php
-
     $PageTitle='Главная';
     require_once('header_t.php');
     require_once('connectvars.php');
     require_once('connectdb_t.php');
-    require_once('authss_t.php');
     session_start();
     ?>
         <div id="wrapper">
-            
             <!-- Content -->
                     <div id="content">
                         <div class="inner">
-                    
                             <!-- Post -->
                             <?php
                                 $query = "select * from recordtable order by date desc";
@@ -27,7 +22,6 @@
                                                 <h2><?php echo $row['head'] ?></h2>
                                             </header>
                                             <div class="info">
-
                                                 <span class="date">
                                                     <span class="month"><?php echo date_create($row['date'])->Format('M') ?></span>
                                                     <span class="day"><?php echo date_create($row['date'])->Format('d') ?></span>
