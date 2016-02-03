@@ -11,7 +11,7 @@
                         <div class="inner">
                             <!-- Post -->
                             <?php
-                                $query = "select * from recordtable order by date desc";
+                                $query = "select id, date, head, rec from recordtable order by date desc";
                                 if ($result=$dbc->query($query))
                                 {
                                     while ($row=mysqli_fetch_array($result))
