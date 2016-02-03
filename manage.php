@@ -3,7 +3,6 @@ $PageTitle='Управление';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
-require_once('authss_t.php');
 session_start();
 if (isset($_SESSION)&& $_SESSION['right'] != 1)
 {

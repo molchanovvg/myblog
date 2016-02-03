@@ -17,7 +17,6 @@
                         {
                             if (isset($_POST['submit']))
                             {
-
                                 $user_username=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['username'])));
                                 $user_password=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['password'])));
                                 if (!empty($user_username) && !empty($user_password))
