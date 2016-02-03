@@ -19,12 +19,7 @@ if (isset($_SESSION)&& $_SESSION['right'] != 1)
                 ?>
                 <p>Здесь можно отредактировать или удалить записи MyBlog</p>
                 <?php
-                $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                if ($dbc->connect_error) {
-                    die('Error connecting Mysql server (' . $dbc->connect_error . ')');
-                }
-                $query = 'SELECT * FROM recordtable ORDER BY date DESC';
-                mysqli_set_charset($dbc, 'utf8');
+                $query = 'SELECT id, date, head, rec FROM recordtable ORDER BY date DESC';
                 if ($result = $dbc->query($query)) {
                     while ($row = mysqli_fetch_array($result)) {
                         echo $row['date'] . '  ' . $row['head'] . '  ';
@@ -34,7 +29,6 @@ if (isset($_SESSION)&& $_SESSION['right'] != 1)
                     }
                 }
                 mysqli_close($dbc);
-
             ?>
         </div>
     </div>
