@@ -5,6 +5,10 @@ require_once('connectvars.php');
 require_once('connectdb_t.php');
 require_once('authss_t.php');
 session_start();
+if (isset($_SESSION)&& $_SESSION['right'] != 1)
+{
+    exit('У вас нет доступа к данной странице.');
+}
 ?>
 
 <div id="wrapper">
@@ -13,8 +17,6 @@ session_start();
     <div id="content">
         <div class="inner">
             <?php
-            if ((isset($_SESSION['user_id'])) && ($_SESSION['right']==1))
-            {
                 ?>
                 <p>Здесь можно отредактировать или удалить записи MyBlog</p>
                 <?php
@@ -33,11 +35,7 @@ session_start();
                     }
                 }
                 mysqli_close($dbc);
-            }
-            else
-            {
-             echo '<p>У вас нет доступа</p>';
-            }
+
             ?>
         </div>
     </div>
