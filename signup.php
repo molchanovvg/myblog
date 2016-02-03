@@ -2,6 +2,7 @@
 $PageName='Страница регистрации';
 require_once('header_t.php');
 require_once('connectvars.php');
+require_once('connectdb_t.php');
 $form_visible=true;
 ?>
 <div id="wrapper">
@@ -10,7 +11,7 @@ $form_visible=true;
                     <div id="content">
                         <div class="inner">
                             <?php
-                                $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                                //$dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                 if (isset($_POST['submit']))
                                 {
                                     $username=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['username'])));
