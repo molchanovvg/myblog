@@ -18,24 +18,8 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
             <!-- Content -->
                     <div id="content">
                         <div class="inner">
-
                             <?php
-                                if (isset($_GET['id'])&& isset($_GET['head']))
-                                {
-                                    $id=$_GET['id'];
-                                    $head=$_GET['head'];
-                                }
-                                else if (isset($_POST['id'])&& isset($_POST['header']))
-                                     {
-                                         $id=$_POST['id'];
-                                         $head=strip_tags(trim($_POST['header']));
-                                         $rec=strip_tags(trim($_POST['record']));
-                                     }
-                                     else
-                                     {
-                                         exit('Нет данных для редактирования');
-                                     }
-                                if (isset($_POST['submit']))
+                                if (isset($_POST['submit']) && (!empty($_POST['header'])&& !empty($_POST['record'])))
                                 {
                                     $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                     mysqli_set_charset($dbc, "utf8");
@@ -43,12 +27,12 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
                                     {
                                         die('Error connection Mysql-server ('.$dbc->connect_error.')');
                                     }
-                                    $head=mysqli_real_escape_string($dbc, $head);
-                                    $rec=mysqli_real_escape_string($dbc, $rec);
+                                    $head=mysqli_real_escape_string($dbc, strip_tags(trim($_POST['header'])));
+                                    $rec=mysqli_real_escape_string($dbc, strip_tags(trim($_POST['record'])));
                                     // проверка на наличие такой записи add
                                     if ($stmt_update = mysqli_prepare($dbc, "UPDATE recordtable SET head = ?, rec= ? WHERE id = ? "))
                                     {
-                                        mysqli_stmt_bind_param($stmt_update, "ssi", $head, $rec, $id);
+                                        mysqli_stmt_bind_param($stmt_update, "ssi", $head, $rec, $_POST['id']);
                                         if (!(mysqli_stmt_execute($stmt_update)))
                                         {
                                             echo 'Ошибка при изменении записи';
@@ -57,40 +41,52 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
                                     };
                                     mysqli_close($dbc);
                                     echo '<p>Статья с заголовком ' . $head . ' была изменена</p>';
-                                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/viewpost.php?id='.$id.'';
-                                    header('Location: '.$home_url);
-
-
+                                    echo '<a href="/viewpost.php?id=' . $_POST['id'] . '"">Просмотреть статью</a></br>';
+                                    echo '<a href="/edit.php?id=' . $_POST['id'] . '"">Продолжить редактирование</a>';
                                 }
-                                else if (isset($id)&& isset($head))
+                                else
+                                {
+                                    if (isset($_POST['submit']) && (empty($_POST['header'])))
                                     {
-                                        $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                                        mysqli_set_charset($dbc, "utf8");
-                                        if ($stmt_select = mysqli_prepare($dbc, "select * from recordtable WHERE id=?"))
+                                        echo 'Пустой заголовок поста не разрешается!<br>';
+                                    }
+                                    if (isset($_POST['submit']) && (empty($_POST['record'])))
+                                    {
+                                        echo 'Пустой пост не разрешается!';
+                                    }
+                                    if (isset($_GET['id']))
+                                    {
+                                        $id=$_GET['id'];
+                                    }
+                                    if (isset($_POST['id']))
+                                    {
+                                        $id=$_POST['id'];
+                                    }
+                                    $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                                    mysqli_set_charset($dbc, "utf8");
+                                    if ($stmt_select = mysqli_prepare($dbc, "select * from recordtable WHERE id=?"))
+                                    {
+                                        mysqli_stmt_bind_param($stmt_select, "i", $id);
+                                        if (!(mysqli_stmt_execute($stmt_select)))
                                         {
-                                            mysqli_stmt_bind_param($stmt_select, "i", $id);
-                                            if (!(mysqli_stmt_execute($stmt_select)))
-                                            {
-                                                echo 'Ошибка при выборе записи';
-                                            };
-                                            mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
-                                            mysqli_stmt_fetch($stmt_select);
-                                            mysqli_stmt_close($stmt_select);
+                                            echo 'Ошибка при выборе записи';
                                         };
-
-                                        mysqli_close($dbc);
+                                        mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
+                                        mysqli_stmt_fetch($stmt_select);
+                                        mysqli_stmt_close($stmt_select);
+                                    };
+                                    mysqli_close($dbc);
                                     ?>
-                                        <form method="post" action="edit.php">
-                                            <label for="header">Заголовок:</label><br>
-                                            <input type="text" name="header" id="header" value="<?php echo $head ?>"><br>
-                                            <label for="record">Текст:</label><br>
-                                            <textarea name="record" cols="80" rows="20" id="record"><?php echo $rec ?></textarea><br>
-                                            <input type="hidden" name="id" value="<?php echo $id ?>"/>
-                                            <input type="submit" value="submit" name="submit">
-                                        </form>
-                              <?php
-                            }
-
+                                    <form method="post" action="edit.php">
+                                        <label for="header">Заголовок:</label><br>
+                                        <input type="text" name="header" id="header" value="<?php echo $head ?>"><br>
+                                        <label for="record">Текст:</label><br>
+                                        <textarea name="record" cols="80" rows="20" id="record"><?php echo $rec ?></textarea><br>
+                                        <input type="hidden" name="id" value="<?php echo $id ?>"/>
+                                        <input type="submit" value="submit" name="submit">
+                                    </form>
+                                    <?php
+                                }
                             ?>
                         </div>
                     </div>
