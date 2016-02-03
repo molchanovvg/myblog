@@ -26,8 +26,8 @@ require_once('authss_t.php');
                 if ($result = $dbc->query($query)) {
                     while ($row = mysqli_fetch_array($result)) {
                         echo $row['date'] . '  ' . $row['head'] . '  ';
-                        echo '<a href="/edit.php?id=' . $row['id'] . '&amp;head=' . $row['head'] . '">Редактировать</a>';
-                        echo '<a href="/remove.php?id=' . $row['id'] . '&amp;head=' . $row['head'] . '">Удалить</a>';
+                        echo '<a href="/edit.php?id=' . $row['id'] . '">Редактировать</a>';
+                        echo '<a href="/remove.php?id=' . $row['id'] . '">Удалить</a>';
                         echo '<br>';
                     }
                 }
