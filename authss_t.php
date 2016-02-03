@@ -1,12 +1,10 @@
 <?php
 
-if (!isset($_SESSION['user_id']))
+if (isset($_SESSION['user_id']))
 {
-    if (isset($_COOKIE['user_id']))
-    {
         if ($stmt_select = mysqli_prepare($dbc, "select userid, username, userright from mybloguser WHERE userid=?"))
         {
-            mysqli_stmt_bind_param($stmt_select, "i", $_COOKIE['user_id']);
+            mysqli_stmt_bind_param($stmt_select, "i", $_SESSION['user_id']);
             if (!(mysqli_stmt_execute($stmt_select)))
             {
                 echo 'Ошибка при выборе записи';
@@ -17,6 +15,5 @@ if (!isset($_SESSION['user_id']))
 
         };
 
-    }
 
 }
