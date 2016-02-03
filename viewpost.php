@@ -4,18 +4,13 @@ $PageTitle='Просмотр записи';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
-require_once('authss_t.php');
 session_start();
 ?>
 <div id="wrapper">
-
     <!-- Content -->
     <div id="content">
         <div class="inner">
-
-
             <?php
-
             if (!(isset($_GET['id'])) &&(isset($_POST['submit']))) //
             {
                 $commit=strip_tags(mysqli_real_escape_string($dbc,$_POST['commit']));

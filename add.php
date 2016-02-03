@@ -3,7 +3,6 @@ $PageTitle='Добавление поста';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
-require_once('authss_t.php');
 session_start();
 
 if (!isset($_SESSION) || $_SESSION['right'] != 1)
@@ -11,24 +10,20 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
     exit('У вас нет доступа к данной странице.');
 }
 
-
 ?>
     <div id="wrapper">
-
             <!-- Content -->
                     <div id="content">
                         <div class="inner">
-
                             <!-- Post -->
                             <?php
                                 $header=strip_tags(trim($_POST['header']));
                                 $record=strip_tags(trim($_POST['record']));
                                 if (isset($_POST['submit']) && (!empty($_POST['header'])&& !empty($_POST['record'])))
                                 {
-
                                         $header=mysqli_real_escape_string($dbc,$header);
                                         $record=mysqli_real_escape_string($dbc,$record);
-                                        if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable VALUES (0, NOW(), ?, ?)"))
+                                        if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable(id, date, head, rec) VALUES (0, NOW(), ?, ?)"))
                                         {
                                             mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);
                                             if (!(mysqli_stmt_execute($stmt_insert)))
