@@ -7,14 +7,14 @@
     $error_msg="";
 ?>
 
-
 <div id="wrapper">
 
     <!-- Content -->
     <div id="content">
         <div class="inner">
                         <?php
-                        if (!isset($_SESSION['user_id'])) {
+                        if (!isset($_SESSION['user_id']))
+                        {
                             if (isset($_POST['submit']))
                             {
 
@@ -25,7 +25,6 @@
                                     $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
                                     {
-
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
@@ -40,15 +39,13 @@
                                             $_SESSION['user_id']=$id;
                                             $_SESSION['username']=$name;
                                             $_SESSION['right']=$userright;
-                                            setcookie('user_id', $id, time() + (60*60*24*30));
+                                            echo '<p>Вы вошли как '.$_SESSION['username'].'</p>';
                                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                                             header('Location: '.$home_url);
-                                            echo '<p>Вы вошли как '.$user_username.'</p>';
 
                                         }
                                         else
                                         {
-
                                             $error_msg='Нет такого пользователя или неправильно введен пароль.';
                                         }
                                         mysqli_stmt_close($stmt_select);
@@ -60,33 +57,33 @@
                                     $error_msg='Необходимо ввести пароль, чтобы войти';
                                 }
                             }
+                            if (!isset($_POST['submit']) || !empty($error_msg))
+                            {
+                                ?>
+                                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                    <fieldset>
+                                        <legend>Вход в блог</legend>
+                                        <label for="username">Имя пользователя:
+                                            <input type="text" name="username" value="<?php if (!empty($user_username)) echo $user_username; ?>"/>
+                                        </label>
+                                        <label for="password">Пароль:
+                                            <input type="password" name="password"/>
+                                        </label>
+                                    </fieldset>
+                                    <br>
+                                    <input type="submit" value="Войти" name="submit"/>
+                                </form>
+                                <?php
+                            }
                         }
-                        if (empty($_COOKIE['user_id']))
-                        {
-                             echo $error_msg;
 
-                        ?>
-                        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                            <fieldset>
-                                <legend>Вход в блог</legend>
-                                <label for="username">Имя пользователя:
-                                    <input type="text" name="username" value="<?php if (!empty($user_username)) echo $user_username; ?>"/>
-                                </label>
-                                <label for="password">Пароль:
-                                    <input type="password" name="password"/>
-                                </label>
-                            </fieldset>
-                            <br>
-                            <input type="submit" value="Войти" name="submit"/>
-                        </form>
-                        <?php
-                        }
                         else
                         {
                             echo ('<p>Вы вошли в приложение как '.$_SESSION['username'].'.</p>'); // в принице с мгновенным редиректом можно  и убрать
                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
-                           // header('Location: '.$home_url);
+                            header('Location: '.$home_url);
                         }
+                        echo $error_msg;
                         ?>
         </div>
     </div>
