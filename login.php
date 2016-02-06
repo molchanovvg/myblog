@@ -27,7 +27,7 @@
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
-                                            exit ('Ошибка при выборке данных');
+                                            exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                         }
                                         mysqli_stmt_store_result($stmt_select);
                                         mysqli_stmt_bind_result($stmt_select, $id, $name, $userright);

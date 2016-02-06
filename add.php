@@ -26,7 +26,7 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
                                             mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);
                                             if (!(mysqli_stmt_execute($stmt_insert)))
                                             {
-                                                echo 'Ошибка при добавлении записи';
+                                                exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_insert));
                                             };
                                             mysqli_stmt_close($stmt_insert);
                                         };

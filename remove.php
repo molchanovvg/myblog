@@ -17,7 +17,6 @@ session_start();
                             <?php
                                 if (isset($_POST['submit']))
                                 {
-                                    echo $_POST['id'];
                                     if ($_POST['confirm'] == 'Yes')
                                     {
                                         if ($stmt_delete = mysqli_prepare($dbc, "DELETE FROM recordtable WHERE id = ? LIMIT 1"))
@@ -25,7 +24,7 @@ session_start();
                                             mysqli_stmt_bind_param($stmt_delete, "i", $_POST['id']);
                                             if (!(mysqli_stmt_execute($stmt_delete)))
                                             {
-                                                echo 'Ошибка при удалении записи';
+                                                exit ('Ошибка при удалении записи: '.mysqli_stmt_error($stmt_delete));
                                             };
                                             mysqli_stmt_close($stmt_delete);
                                         };

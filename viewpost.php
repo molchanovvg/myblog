@@ -19,7 +19,7 @@ session_start();
                     mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
                     if (!(mysqli_stmt_execute($stmt_insert)))
                     {
-                        echo 'Ошибка при добавлении записи';
+                        exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_insert));
                     };
                     mysqli_stmt_close($stmt_insert);
                 };
@@ -37,7 +37,7 @@ session_start();
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
                     if (!(mysqli_stmt_execute($stmt_select)))
                     {
-                        echo 'Ошибка при выборе записи';
+                        exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                     };
                     mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
                     mysqli_stmt_fetch($stmt_select);
@@ -64,7 +64,7 @@ session_start();
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
                     if (!(mysqli_stmt_execute($stmt_select)))
                     {
-                        echo 'Ошибка при выборе записи';
+                        exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                     };
                     mysqli_stmt_bind_result($stmt_select, $name, $date, $comm);
                     while (mysqli_stmt_fetch($stmt_select))

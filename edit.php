@@ -22,8 +22,9 @@ if (isset($_SESSION) && $_SESSION['right'] != 1)
                                     // проверка на наличие такой записи add
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT id, date, head, rec FROM recordtable WHERE id=? ")) {
                                         mysqli_stmt_bind_param($stmt_select, "i", $_POST['id']);
-                                        if (!(mysqli_stmt_execute($stmt_select))) {
-                                            echo 'Ошибка при выборке данных';
+                                        if (!(mysqli_stmt_execute($stmt_select)))
+                                        {
+                                            exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                         }
                                         mysqli_stmt_store_result($stmt_select);
                                         mysqli_stmt_bind_result($stmt_select, $id, $date, $head_, $rec_);
@@ -35,8 +36,9 @@ if (isset($_SESSION) && $_SESSION['right'] != 1)
                                         if (mysqli_stmt_num_rows($stmt_select) == 1) {
                                             if ($stmt_update = mysqli_prepare($dbc, "UPDATE recordtable SET head = ?, rec= ? WHERE id = ? ")) {
                                                 mysqli_stmt_bind_param($stmt_update, "ssi", $head, $rec, $_POST['id']);
-                                                if (!(mysqli_stmt_execute($stmt_update))) {
-                                                    echo 'Ошибка при изменении записи';
+                                                if (!(mysqli_stmt_execute($stmt_update)))
+                                                {
+                                                    exit ('Ошибка при изменении записей: '.mysqli_stmt_error($stmt_update));
                                                 };
                                                 mysqli_stmt_close($stmt_update);
                                             };
@@ -75,7 +77,7 @@ if (isset($_SESSION) && $_SESSION['right'] != 1)
                                         mysqli_stmt_bind_param($stmt_select, "i", $id);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
-                                            echo 'Ошибка при выборе записи';
+                                            exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                         };
                                         mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
                                         mysqli_stmt_fetch($stmt_select);

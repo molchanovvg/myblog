@@ -24,7 +24,7 @@ $form_visible=true;
                                             mysqli_stmt_bind_param($stmt_select, "s", $username);
                                             if (!(mysqli_stmt_execute($stmt_select)))
                                             {
-                                                echo 'Ошибка при выборе записи';
+                                                exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                             };
                                             mysqli_stmt_bind_result($stmt_select, $userid, $username_sel, $password_sel);
                                             mysqli_stmt_fetch($stmt_select);
@@ -36,7 +36,7 @@ $form_visible=true;
                                                     mysqli_stmt_bind_param($stmt_update, "ss", $username, $password1);
                                                     if (!(mysqli_stmt_execute($stmt_update)))
                                                     {
-                                                        echo 'Ошибка при изменении записи';
+                                                        exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_update));
                                                     }
                                                     else
                                                     {
