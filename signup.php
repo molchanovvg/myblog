@@ -13,9 +13,9 @@ $form_visible=true;
                             <?php
                                 if (isset($_POST['submit']))
                                 {
-                                    $username=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['username'])));
-                                    $password1=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['password1'])));
-                                    $password2=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['password2'])));
+                                    $username=trim(strip_tags($_POST['username']));
+                                    $password1=trim(strip_tags($_POST['password1']));
+                                    $password2=trim(strip_tags($_POST['password2']));
                                     if (!empty($username) && !empty($password1) && !empty($password2) && $password1==$password2)
                                     {
                                         // проверка нет ли уже такого пользователя
