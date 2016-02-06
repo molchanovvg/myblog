@@ -4,7 +4,7 @@ require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
 session_start();
-if (isset($_SESSION)&& $_SESSION['right'] != 1)
+if (!isset($_SESSION, $_SESSION['right']) || $_SESSION['right'] != 1)
 {
     exit('У вас нет доступа к данной странице.');
 }
