@@ -17,12 +17,10 @@ if (!isset($_SESSION) || $_SESSION['right'] != 1)
                         <div class="inner">
                             <!-- Post -->
                             <?php
-                                $header=strip_tags(trim($_POST['header']));
-                                $record=strip_tags(trim($_POST['record']));
+                                $header=trim(strip_tags($_POST['header']));
+                                $record=trim(strip_tags($_POST['record']));
                                 if (isset($_POST['submit']) && (!empty($_POST['header'])&& !empty($_POST['record'])))
                                 {
-                                        $header=mysqli_real_escape_string($dbc,$header);
-                                        $record=mysqli_real_escape_string($dbc,$record);
                                         if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO recordtable(id, date, head, rec) VALUES (0, NOW(), ?, ?)"))
                                         {
                                             mysqli_stmt_bind_param($stmt_insert, "ss", $header, $record);
