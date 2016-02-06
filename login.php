@@ -27,7 +27,7 @@
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
-                                            echo 'Ошибка при выборке данных';
+                                            exit ('Ошибка при выборке данных');
                                         }
                                         mysqli_stmt_store_result($stmt_select);
                                         mysqli_stmt_bind_result($stmt_select, $id, $name, $userright);
@@ -38,7 +38,6 @@
                                             $_SESSION['user_id']=$id;
                                             $_SESSION['username']=$name;
                                             $_SESSION['right']=$userright;
-                                            echo '<p>Вы вошли как '.$_SESSION['username'].'</p>';
                                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                                             header('Location: '.$home_url);
 
@@ -78,7 +77,6 @@
 
                         else
                         {
-                            echo ('<p>Вы вошли в приложение как '.$_SESSION['username'].'.</p>'); // в принице с мгновенным редиректом можно  и убрать
                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                             header('Location: '.$home_url);
                         }
