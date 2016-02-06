@@ -4,10 +4,11 @@ require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
 
-if (!isset($_SESSION, $_SESSION['right']) || $_SESSION['right'] != 1)
+if (!isset($_SESSION, $_SESSION['right']) || $_SESSION['right'] != 1 || $_SESSION['ua'] || $_SESSION['ua']!=$_SERVER['HTTP_USER_AGENT'])
 {
     exit('У вас нет доступа к данной странице.');
 }
+
 
 ?>
 

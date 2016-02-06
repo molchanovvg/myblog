@@ -43,6 +43,7 @@
                                             $_SESSION['user_id']=$id;
                                             $_SESSION['username']=$name;
                                             $_SESSION['right']=$userright;
+                                            $_SESSION['ua']=$_SERVER['HTTP_USER_AGENT'];
                                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                                             header('Location: '.$home_url);
 
