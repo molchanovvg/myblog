@@ -10,8 +10,6 @@
     <!-- Nav -->
     <nav id="nav">
         <ul>
-            <!-- <li class="current"> .-->
-            <!-- <li class="current"> .-->
 
             <?php
             if (isset($_SESSION['username']))
