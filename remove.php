@@ -45,8 +45,20 @@ session_start();
                                 }
                                 else if (isset($_GET['id']))
                                 {
+                                    if ($stmt_select = mysqli_prepare($dbc, "SELECT head FROM recordtable WHERE id=?"))
+                                    {
+                                        mysqli_stmt_bind_param($stmt_select,"i", $_GET['id']);
+                                        if (!(mysqli_stmt_execute($stmt_select)))
+                                        {
+                                            exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
+                                        }
+                                        mysqli_stmt_store_result($stmt_select);
+                                        mysqli_stmt_bind_result($stmt_select, $head);
+                                        mysqli_stmt_fetch($stmt_select);
+                                    }
+
                                     ?>
-                                    <p>Вы уверены что хотите удалить?</p>
+                                    <p>Вы уверены что хотите удалить запись "<?php echo $head;?>" ?</p>
                                     <br>
                                     <form method="post" action="remove.php">
                                         <input type="radio" name="confirm" value="Yes" /> Yes

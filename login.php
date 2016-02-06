@@ -15,18 +15,21 @@
                         <?php
                         if (!isset($_SESSION['user_id']))
                         {
+
                             if (isset($_POST['submit']))
                             {
+
                                 $user_username=trim(strip_tags($_POST['username']));
                                 $user_password=trim(strip_tags($_POST['password']));
                                 if (!empty($user_username) && !empty($user_password))
                                 {
-
+                                   $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); // ??
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
                                     {
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
+
                                             exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                         }
                                         mysqli_stmt_store_result($stmt_select);
@@ -35,6 +38,7 @@
 
                                         if (mysqli_stmt_num_rows($stmt_select)==1)
                                         {
+
                                             $_SESSION['user_id']=$id;
                                             $_SESSION['username']=$name;
                                             $_SESSION['right']=$userright;
