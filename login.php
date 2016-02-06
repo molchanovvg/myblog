@@ -17,11 +17,11 @@
                         {
                             if (isset($_POST['submit']))
                             {
-                                $user_username=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['username'])));
-                                $user_password=strip_tags(mysqli_real_escape_string($dbc, trim($_POST['password'])));
+                                $user_username=trim(strip_tags($_POST['username']));
+                                $user_password=trim(strip_tags($_POST['password']));
                                 if (!empty($user_username) && !empty($user_password))
                                 {
-                                    $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                                    
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
                                     {
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
