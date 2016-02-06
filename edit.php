@@ -18,8 +18,7 @@ if (isset($_SESSION) && $_SESSION['right'] != 1)
                             <?php
                                 if (isset($_POST['submit']) && (!empty($_POST['header'])&& !empty($_POST['record'])))
                                 {
-                                    $head = mysqli_real_escape_string($dbc, strip_tags(trim($_POST['header'])));
-                                    $rec = mysqli_real_escape_string($dbc, strip_tags(trim($_POST['record'])));
+
                                     // проверка на наличие такой записи add
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT id, date, head, rec FROM recordtable WHERE id=? ")) {
                                         mysqli_stmt_bind_param($stmt_select, "i", $_POST['id']);
@@ -29,6 +28,9 @@ if (isset($_SESSION) && $_SESSION['right'] != 1)
                                         mysqli_stmt_store_result($stmt_select);
                                         mysqli_stmt_bind_result($stmt_select, $id, $date, $head_, $rec_);
                                         mysqli_stmt_fetch($stmt_select);
+
+                                        $head = trim(strip_tags($_POST['header']));
+                                        $rec = trim(strip_tags($_POST['record']));
 
                                         if (mysqli_stmt_num_rows($stmt_select) == 1) {
                                             if ($stmt_update = mysqli_prepare($dbc, "UPDATE recordtable SET head = ?, rec= ? WHERE id = ? ")) {
