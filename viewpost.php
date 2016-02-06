@@ -13,7 +13,7 @@ session_start();
             <?php
             if (!(isset($_GET['id'])) &&(isset($_POST['submit']))) //
             {
-                $commit=strip_tags(mysqli_real_escape_string($dbc,$_POST['commit']));
+                $commit=trim(strip_tags($_POST['commit']));
                 if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(id, date, head, rec) VALUES (0, NOW(), ?, ?, ?)"))
                 {
                     mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
