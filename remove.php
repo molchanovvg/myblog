@@ -18,12 +18,8 @@ session_start();
                                 if (isset($_POST['submit']))
                                 {
                                     echo $_POST['id'];
-                                    if ($_POST['confirm'] == 'Yes') {
-                                      /*  $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                                        if ($dbc->connect_error) {
-                                            die('Error connection Mysql-server (' . $dbc->connect_error . ')');
-                                        }
-*/
+                                    if ($_POST['confirm'] == 'Yes')
+                                    {
                                         if ($stmt_delete = mysqli_prepare($dbc, "DELETE FROM recordtable WHERE id = ? LIMIT 1"))
                                         {
                                             mysqli_stmt_bind_param($stmt_delete, "i", $_POST['id']);
