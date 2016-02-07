@@ -56,6 +56,7 @@ session_start();
                     {
                         echo 'Ничего не найдено :(';
                     }
+                    mysqli_close($dbc);
 
                 }
 
