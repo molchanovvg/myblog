@@ -5,7 +5,7 @@ require_once('connectvars.php');
 require_once('connectdb_t.php');
 session_start();
 
-if (!isset($_SESSION, $_SESSION['right']) || $_SESSION['right'] != 1 || $_SESSION['ua'] || $_SESSION['ua']!=$_SERVER['HTTP_USER_AGENT'])
+if (!isset($_SESSION, $_SESSION['right'], $_SESSION['ua']) || $_SESSION['right'] != 1 || $_SESSION['ua']!=$_SERVER['HTTP_USER_AGENT'])
 {
     exit('У вас нет доступа к данной странице.');
 }

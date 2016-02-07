@@ -11,11 +11,14 @@ session_start();
     <div id="content">
         <div class="inner">
             <?php
-            if (!(isset($_GET['id'])) &&(isset($_POST['submit']))) //
+
+            if ((isset($_POST['submit']))) //!(isset($_GET['id'])) &&
             {
+                echo '11111111';
                 $commit=trim(strip_tags($_POST['commit']));
-                if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(id, date, head, rec) VALUES (0, NOW(), ?, ?, ?)"))
+                if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(commid, date, postid, userid, comment) VALUES (0, NOW(), ?, ?, ?)"))
                 {
+
                     mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
                     if (!(mysqli_stmt_execute($stmt_insert)))
                     {
@@ -59,7 +62,7 @@ session_start();
                     </article>
                     <?php
                 };
-                if ($stmt_select = mysqli_prepare($dbc, "SELECT t1.username, t2.date, t2.comment FROM mybloguser as t1, commenttable as t2 WHERE t2.postid=?  AND t2.userid = t1.userid"))
+                if ($stmt_select = mysqli_prepare($dbc, "SELECT t1.username, t2.date, t2.comment FROM mybloguser as t1, commenttable as t2 WHERE t2.postid=?  AND t2.userid = t1.userid order by t2.date desc"))
                 {
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
                     if (!(mysqli_stmt_execute($stmt_select)))
