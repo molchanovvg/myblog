@@ -38,7 +38,13 @@
         </ul>
     </nav>
 
-
+    <!-- Search -->
+    <section class="box search">
+        <form method="post" action="search.php">
+            <input type="text" class="text" name="search" placeholder="Найти"/><br>
+            <input type="submit" value="Найти" name="submit"/>
+        </form>
+    </section>
     <!-- Copyright -->
     <ul id="copyright">
         <li>&copy; Molchanov VG</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
