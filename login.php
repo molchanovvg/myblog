@@ -24,7 +24,7 @@
                                 $user_password=trim(strip_tags($_POST['password']));
                                 if (!empty($user_username) && !empty($user_password))
                                 {
-                                   $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); // ??
+ //                                  $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); // ??
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
                                     {
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);

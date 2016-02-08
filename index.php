@@ -5,7 +5,6 @@
     require_once('connectdb_t.php');
     require_once('navi.php');
 
-
     session_start();
     ?>
         <div id="wrapper">
