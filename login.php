@@ -24,13 +24,11 @@
                                 $user_password=trim(strip_tags($_POST['password']));
                                 if (!empty($user_username) && !empty($user_password))
                                 {
- //                                  $dbc = new mysqli (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); // ??
                                     if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, userright FROM mybloguser WHERE username=? AND password=SHA(?)"))
                                     {
                                         mysqli_stmt_bind_param($stmt_select, "ss", $user_username, $user_password);
                                         if (!(mysqli_stmt_execute($stmt_select)))
                                         {
-
                                             exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                         }
                                         mysqli_stmt_store_result($stmt_select);
@@ -46,7 +44,6 @@
                                             $_SESSION['ua']=$_SERVER['HTTP_USER_AGENT'];
                                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                                             header('Location: '.$home_url);
-
                                         }
                                         else
                                         {
