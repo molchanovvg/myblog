@@ -32,7 +32,7 @@
                                                 </div>
 
                                                 <p>
-                                                    <?php echo $row['rec'] ?>
+                                                    <?php echo substr($row['rec'],0,300) ?>...
                                                 </p>
                                                 <?php
                                                 echo '<a href="/viewpost.php?id=' . $row['id'] . '"">Просмотреть полностью</a>';
@@ -63,14 +63,9 @@
 
                                 }
                                 ?>
-                               <!-- <a href="#" class="active">1</a>
-                                <a href="#">2</a>-->
-
                             </div>
-
                         </div>
                     </div>
-
             <?php
             require_once('sidebar_t.php');
             ?>
