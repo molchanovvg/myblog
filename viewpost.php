@@ -12,9 +12,8 @@ session_start();
         <div class="inner">
             <?php
 
-            if ((isset($_POST['submit']))) //!(isset($_GET['id'])) &&
+            if ((isset($_POST['submit'])))
             {
-                echo '11111111';
                 $commit=trim(strip_tags($_POST['commit']));
                 if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(commid, date, postid, userid, comment) VALUES (0, NOW(), ?, ?, ?)"))
                 {
@@ -100,8 +99,6 @@ session_start();
                     </form>
                     <?php
                 }
-
-
                    mysqli_close($dbc);
             }
         ?>
