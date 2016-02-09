@@ -29,7 +29,6 @@ CREATE TABLE `commenttable` (
   `userid` int(11) unsigned DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   PRIMARY KEY (`commid`),
-  UNIQUE KEY `commid` (`commid`),
   KEY `fk_comments_postid` (`postid`),
   KEY `date` (`date`),
   CONSTRAINT `fk_comments_postid` FOREIGN KEY (`postid`) REFERENCES `recordtable` (`id`) ON DELETE CASCADE
@@ -48,8 +47,7 @@ CREATE TABLE `mybloguser` (
   `username` varchar(32) COLLATE utf8_bin DEFAULT NULL,
   `password` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `userright` int(1) DEFAULT '0',
-  PRIMARY KEY (`userid`),
-  UNIQUE KEY `userid` (`userid`)
+  PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,9 +64,8 @@ CREATE TABLE `recordtable` (
   `head` text COLLATE utf8_bin,
   `rec` text COLLATE utf8_bin,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
   KEY `date` (`date`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -80,4 +77,4 @@ CREATE TABLE `recordtable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-02-07 16:55:11
+-- Dump completed on 2016-02-09 20:31:56
