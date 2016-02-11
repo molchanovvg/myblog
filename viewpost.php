@@ -1,7 +1,8 @@
 <?php
 require_once('connectvars.php');
 require_once('connectdb_t.php');
-    if ($stmt_select = mysqli_prepare($dbc, "select id, date, head, rec from recordtable WHERE id=?")) {
+if (isset($_GET['id'])) {
+    if ($stmt_select = mysqli_prepare($dbc, "SELECT id, date, head, rec FROM recordtable WHERE id=?")) {
         mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
         if (!(mysqli_stmt_execute($stmt_select))) {
             exit ('Ошибка при выборке записей: ' . mysqli_stmt_error($stmt_select));
@@ -10,7 +11,7 @@ require_once('connectdb_t.php');
         mysqli_stmt_fetch($stmt_select);
         mysqli_stmt_close($stmt_select);
     }
-
+}
 
 
 
