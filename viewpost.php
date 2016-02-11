@@ -1,9 +1,22 @@
 <?php
-
-$PageTitle='Просмотр записи в php блоге';
-require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
+    if ($stmt_select = mysqli_prepare($dbc, "select id, date, head, rec from recordtable WHERE id=?")) {
+        mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
+        if (!(mysqli_stmt_execute($stmt_select))) {
+            exit ('Ошибка при выборке записей: ' . mysqli_stmt_error($stmt_select));
+        };
+        mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
+        mysqli_stmt_fetch($stmt_select);
+        mysqli_stmt_close($stmt_select);
+    }
+
+
+
+
+$PageTitle=$head.' - просмотр записи в php блоге';
+require_once('header_t.php');
+
 session_start();
 ?>
 <div id="wrapper">
@@ -33,17 +46,6 @@ session_start();
             }
             if (isset($_GET['id']))
             {
-
-                if ($stmt_select = mysqli_prepare($dbc, "select id, date, head, rec from recordtable WHERE id=?"))
-                {
-                    mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
-                    if (!(mysqli_stmt_execute($stmt_select)))
-                    {
-                        exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
-                    };
-                    mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
-                    mysqli_stmt_fetch($stmt_select);
-                    mysqli_stmt_close($stmt_select);
                     ?>
                     <article class="box post post-excerpt">
                         <header>
@@ -60,7 +62,7 @@ session_start();
                         <p><?php echo $rec ?></p>
                     </article>
                     <?php
-                };
+
                 if ($stmt_select = mysqli_prepare($dbc, "SELECT t1.username, t2.date, t2.comment FROM mybloguser as t1, commenttable as t2 WHERE t2.postid=?  AND t2.userid = t1.userid order by t2.date desc"))
                 {
                     mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
