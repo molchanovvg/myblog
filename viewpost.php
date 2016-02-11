@@ -11,9 +11,7 @@ if (isset($_GET['id'])) {
         mysqli_stmt_fetch($stmt_select);
         mysqli_stmt_close($stmt_select);
     }
-}else {
-    exit('Некорректно переданный запрос!');
-}
+};
 
 
 
@@ -105,9 +103,7 @@ session_start();
                     <?php
                 }
                    mysqli_close($dbc);
-            }else {
-                exit('Некорректно переданный запрос!');
-            }
+            };
         ?>
 
         </div>
