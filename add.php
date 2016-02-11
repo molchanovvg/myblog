@@ -1,5 +1,5 @@
 <?php
-$PageTitle='Добавление поста';
+$PageTitle='Создание поста в простой php блог';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');

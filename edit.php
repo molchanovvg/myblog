@@ -1,5 +1,5 @@
 <?php
-$PageTitle='Управление';
+$PageTitle='Редактирование записи в php блоге';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');

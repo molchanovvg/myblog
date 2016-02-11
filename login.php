@@ -1,5 +1,5 @@
 <?php
-    $PageTitle='Вход в приложение';
+    $PageTitle='Вход в блог';
     require_once('header_t.php');
     require_once('connectvars.php');
     require_once('connectdb_t.php');
