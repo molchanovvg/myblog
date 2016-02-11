@@ -1,21 +1,30 @@
 <?php
 require_once('connectvars.php');
 require_once('connectdb_t.php');
+$head='';
+if (!isset($_GET['id'])){
+    include('404.php');
+}
 if (isset($_GET['id'])) {
     if ($stmt_select = mysqli_prepare($dbc, "SELECT id, date, head, rec FROM recordtable WHERE id=?")) {
         mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
         if (!(mysqli_stmt_execute($stmt_select))) {
+
             exit ('Ошибка при выборке записей: ' . mysqli_stmt_error($stmt_select));
+
         };
         mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
         mysqli_stmt_fetch($stmt_select);
         mysqli_stmt_close($stmt_select);
+        if (mysqli_stmt_num_rows($stmt_select) == 0){
+            include('404.php');
+        }
     }
 };
 
 
 
-$PageTitle=$head.' - просмотр записи в php блоге';
+$PageTitle=$head.' просмотр записи в php блоге';
 require_once('header_t.php');
 
 session_start();
@@ -101,6 +110,10 @@ session_start();
                         <input type="hidden" value="<?php echo $_GET['id']?>" name="id">
                     </form>
                     <?php
+                }
+                else
+                {
+                    echo 'Авторизуйтесь, чтобы добавлять комментарии!';
                 }
                    mysqli_close($dbc);
             };
