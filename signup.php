@@ -1,5 +1,5 @@
 <?php
-$PageName='Страница регистрации';
+$PageName='Регистрация в php блоге';
 require_once('header_t.php');
 require_once('connectvars.php');
 require_once('connectdb_t.php');
@@ -16,48 +16,55 @@ $form_visible=true;
                                     $username=trim(strip_tags($_POST['username']));
                                     $password1=trim(strip_tags($_POST['password1']));
                                     $password2=trim(strip_tags($_POST['password2']));
-                                    if (!empty($username) && !empty($password1) && !empty($password2) && $password1==$password2)
+                                    if (preg_match("/^[a-zA-Z0-9]+$/",$username))
                                     {
-                                        // проверка нет ли уже такого пользователя
-                                        if ($stmt_select = mysqli_prepare($dbc, "select userid, username, password, userright from mybloguser WHERE username=?"))
+                                        if (!empty($username) && !empty($password1) && !empty($password2) && $password1==$password2)
                                         {
-                                            mysqli_stmt_bind_param($stmt_select, "s", $username);
-                                            if (!(mysqli_stmt_execute($stmt_select)))
+                                            // проверка нет ли уже такого пользователя
+                                            if ($stmt_select = mysqli_prepare($dbc, "select userid, username, password, userright from mybloguser WHERE username=?"))
                                             {
-                                                exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
-                                            };
-                                            mysqli_stmt_bind_result($stmt_select, $userid, $username_sel, $password_sel);
-                                            mysqli_stmt_fetch($stmt_select);
-                                            mysqli_stmt_close($stmt_select);
-                                            if (empty($username_sel))
-                                            {
-                                                if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser(userid, username, password, userright) VALUES (0, ?, SHA(?),0)"))
+                                                mysqli_stmt_bind_param($stmt_select, "s", $username);
+                                                if (!(mysqli_stmt_execute($stmt_select)))
                                                 {
-                                                    mysqli_stmt_bind_param($stmt_update, "ss", $username, $password1);
-                                                    if (!(mysqli_stmt_execute($stmt_update)))
-                                                    {
-                                                        exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_update));
-                                                    }
-                                                    else
-                                                    {
-                                                        echo '<p>Ваша учетная запись создана. Вы можете <a href="login.php">войти</a> в приложение.</p>';
-                                                        $form_visible=false;
-
-                                                    }
-                                                    mysqli_stmt_close($stmt_update);
-                                                    mysqli_close($dbc);
+                                                    exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                                 };
+                                                mysqli_stmt_bind_result($stmt_select, $userid, $username_sel, $password_sel);
+                                                mysqli_stmt_fetch($stmt_select);
+                                                mysqli_stmt_close($stmt_select);
+                                                if (empty($username_sel))
+                                                {
+                                                    if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser(userid, username, password, userright) VALUES (0, ?, SHA(?),0)"))
+                                                    {
+                                                        mysqli_stmt_bind_param($stmt_update, "ss", $username, $password1);
+                                                        if (!(mysqli_stmt_execute($stmt_update)))
+                                                        {
+                                                            exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_update));
+                                                        }
+                                                        else
+                                                        {
+                                                            echo '<p>Ваша учетная запись создана. Вы можете <a href="login.php">войти</a> в приложение.</p>';
+                                                            $form_visible=false;
+
+                                                        }
+                                                        mysqli_stmt_close($stmt_update);
+                                                        mysqli_close($dbc);
+                                                    };
+                                                }
+                                                else
+                                                {
+                                                    echo '<p>Такой пользователь уже есть, введите другое имя.</p>';
+                                                    $username="";
+                                                }
                                             }
-                                            else
-                                            {
-                                                echo '<p>Такой пользователь уже есть, введите другое имя.</p>';
-                                                $username="";
-                                            }
+                                        }
+                                        else
+                                        {
+                                            echo '<p>Проверьте введеные данные</p>';
                                         }
                                     }
                                     else
                                     {
-                                        echo '<p>Проверьте введеные данные</p>';
+                                        echo '<p>Имя пользователя должно состоять из латинских букв и цифр!</p>';
                                     }
                                 }
                                 if ($form_visible)
