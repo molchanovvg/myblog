@@ -13,12 +13,14 @@ if (isset($_GET['id'])) {
             exit ('Ошибка при выборке записей: ' . mysqli_stmt_error($stmt_select));
 
         };
+        mysqli_stmt_store_result($stmt_select);
         mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
         mysqli_stmt_fetch($stmt_select);
-        mysqli_stmt_close($stmt_select);
         if (mysqli_stmt_num_rows($stmt_select) == 0){
+            mysqli_stmt_close($stmt_select);
             include('404.php');
         }
+        mysqli_stmt_close($stmt_select);
     }
 };
 
