@@ -2,7 +2,7 @@
 require_once('connectvars.php');
 require_once('connectdb_t.php');
 $head='';
-if (!isset($_GET['id'])){
+if (!isset($_GET['id'])&&(!isset($_POST['submit']))){
     include('404.php');
 }
 if (isset($_GET['id'])) {
@@ -39,21 +39,33 @@ session_start();
 
             if ((isset($_POST['submit'])))
             {
-                $commit=trim(strip_tags($_POST['commit']));
-                if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(commid, date, postid, userid, comment) VALUES (0, NOW(), ?, ?, ?)"))
+
+                if ($_SESSION['pass']==sha1($_POST['verify']))
                 {
 
-                    mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
-                    if (!(mysqli_stmt_execute($stmt_insert)))
+                    $commit=trim(strip_tags($_POST['commit']));
+                    if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(commid, date, postid, userid, comment) VALUES (0, NOW(), ?, ?, ?)"))
                     {
-                        exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_insert));
+
+                        mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
+                        if (!(mysqli_stmt_execute($stmt_insert)))
+                        {
+                            exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_insert));
+                        };
+                        mysqli_stmt_close($stmt_insert);
                     };
-                    mysqli_stmt_close($stmt_insert);
-                };
-                echo '<p>Вы добавили комментарий.</p>';
-                mysqli_close($dbc);
-                $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_POST['id'].'';
-                header('Location: '.$home_url);
+                    echo '<p>Вы добавили комментарий.</p>';
+                    mysqli_close($dbc);
+                    $_SESSION['commit']='';
+                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_POST['id'].'';
+                    header('Location: '.$home_url);
+                }
+                else
+                {
+                    $_SESSION['commit']=$_POST['commit'];
+                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_POST['id'].'';
+                    header('Location: '.$home_url);
+                }
 
             }
             if (isset($_GET['id']))
@@ -102,12 +114,19 @@ session_start();
                 };
                 if (isset($_SESSION['user_id']))
                 {
+                    if (!empty($_SESSION['commit']))
+                    {
+                        echo 'Captcha введена не верно!';
+                    }
                     ?>
                     <!-- New commit -->
                     <p>Добавить комментарий</p>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <label for="commit">Комментарий:</label><br>
-                        <textarea name="commit" cols="40" rows="10" id="commit"></textarea><br>
+                        <textarea name="commit" cols="40" rows="10" id="commit"><?php echo $_SESSION['commit'] ?></textarea><br>
+                        <label for="verify">Защита от роботов:</label><br>
+                        <img src="captcha.php"><br>
+                        <input type="text" name="verify" value="Введите буквы с картинки"><br>
                         <input type="submit" value="Прокомментировать" name="submit">
                         <input type="hidden" value="<?php echo $_GET['id']?>" name="id">
                     </form>
