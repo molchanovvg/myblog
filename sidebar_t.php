@@ -31,6 +31,7 @@
                 ?>
                 <li><a href="/login.php">Вход</a></li>
                 <li><a href="/signup.php">Регистрация</a></li>
+                <li><a href="/newsfeed.php">RSS</a></li>
                 <?php
             }
 
