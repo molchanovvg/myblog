@@ -32,6 +32,7 @@
                 <li><a href="/login.php">Вход</a></li>
                 <li><a href="/signup.php">Регистрация</a></li>
                 <li><a href="/newsfeed.php">RSS</a></li>
+                <li><a href="https://github.com/molchanovvg/myblog">Это блог на GitHub</a></li>
                 <?php
             }
 
