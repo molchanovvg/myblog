@@ -16,10 +16,8 @@
                         <?php
                         if (!isset($_SESSION['user_id']))
                         {
-
                             if (isset($_POST['submit']))
                             {
-
                                 $user_username=trim(strip_tags($_POST['username']));
                                 $user_password=trim(strip_tags($_POST['password']));
                                 if (!empty($user_username) && !empty($user_password))
@@ -37,7 +35,6 @@
 
                                         if (mysqli_stmt_num_rows($stmt_select)==1)
                                         {
-
                                             $_SESSION['user_id']=$id;
                                             $_SESSION['username']=$name;
                                             $_SESSION['right']=$userright;
@@ -51,6 +48,10 @@
                                         }
                                         mysqli_stmt_close($stmt_select);
                                         mysqli_close($dbc);
+                                    }
+                                    else
+                                    {
+                                            echo mysqli_error($dbc);
                                     }
                                 }
                                 else
