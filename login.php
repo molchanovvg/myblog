@@ -1,4 +1,5 @@
 <?php
+    require_once('error_handler.php');
     $PageTitle='Вход в блог';
     require_once('header_t.php');
     require_once('connectvars.php');
@@ -44,7 +45,7 @@
                                         }
                                         else
                                         {
-                                            $error_msg='Нет такого пользователя или неправильно введен пароль.';
+                                            trigger_error('Нет такого пользователя или неправильно введен пароль.', E_USER_WARNING);
                                         }
                                         mysqli_stmt_close($stmt_select);
                                         mysqli_close($dbc);
@@ -56,7 +57,7 @@
                                 }
                                 else
                                 {
-                                    $error_msg='Необходимо ввести пароль, чтобы войти';
+                                    trigger_error('Необходимо ввести пароль, чтобы войти.', E_USER_NOTICE);
                                 }
                             }
                             if (!isset($_POST['submit']) || !empty($error_msg))
@@ -84,7 +85,7 @@
                             $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'index.php';
                             header('Location: '.$home_url);
                         }
-                        echo $error_msg;
+                        /*echo $error_msg;*/
                         ?>
         </div>
     </div>

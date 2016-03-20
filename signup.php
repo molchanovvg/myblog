@@ -21,17 +21,16 @@ $form_visible=true;
                                         if (!empty($username) && !empty($password1) && !empty($password2) && $password1==$password2)
                                         {
                                             // проверка нет ли уже такого пользователя
-                                            if ($stmt_select = mysqli_prepare($dbc, "select userid, username, password, userright from mybloguser WHERE username=?"))
+                                            if ($stmt_select = mysqli_prepare($dbc, "SELECT userid, username, password, userright FROM mybloguser WHERE username=?"))
                                             {
                                                 mysqli_stmt_bind_param($stmt_select, "s", $username);
                                                 if (!(mysqli_stmt_execute($stmt_select)))
                                                 {
                                                     exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
                                                 };
-                                                mysqli_stmt_bind_result($stmt_select, $userid, $username_sel, $password_sel);
+                                                mysqli_stmt_store_result($stmt_select);
                                                 mysqli_stmt_fetch($stmt_select);
-                                                mysqli_stmt_close($stmt_select);
-                                                if (empty($username_sel))
+                                                if (mysqli_stmt_num_rows($stmt_select) < 1)
                                                 {
                                                     if ($stmt_update = mysqli_prepare($dbc, "INSERT INTO mybloguser(userid, username, password, userright) VALUES (0, ?, SHA(?),0)"))
                                                     {
@@ -47,7 +46,6 @@ $form_visible=true;
 
                                                         }
                                                         mysqli_stmt_close($stmt_update);
-                                                        mysqli_close($dbc);
                                                     };
                                                 }
                                                 else
@@ -55,6 +53,8 @@ $form_visible=true;
                                                     echo '<p>Такой пользователь уже есть, введите другое имя.</p>';
                                                     $username="";
                                                 }
+                                                mysqli_stmt_close($stmt_select);
+                                                mysqli_close($dbc);
                                             }
                                         }
                                         else
