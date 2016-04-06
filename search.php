@@ -1,8 +1,7 @@
 <?php
+require_once('core.php');
 $PageTitle='Результаты поиска в php блоге';
 require_once('header_t.php');
-require_once('connectvars.php');
-require_once('connectdb_t.php');
 session_start();
 require_once('search_t.php');
 ?>

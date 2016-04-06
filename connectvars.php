@@ -17,3 +17,8 @@ if (!defined('DB_PASSWORD'))
 if (!defined('DB_NAME'))
     define('DB_NAME', 'myblog-db');
 
+
+
+
+
+

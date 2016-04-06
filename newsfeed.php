@@ -7,8 +7,7 @@
     <description>Мой блог основанный на PHP/MySQL</description>
     <language>ru-ru</language>
 <?php
-require_once('connectvars.php');
-require_once('connectdb_t.php');
+require_once('core.php');
 $query= "SELECT id, date, head, rec FROM recordtable ORDER BY date DESC";
 if ($result=$dbc->query($query))
 {

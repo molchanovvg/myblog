@@ -1,9 +1,7 @@
 <?php
-    require_once('error_handler.php');
+    require_once('core.php');
     $PageTitle='Вход в блог';
     require_once('header_t.php');
-    require_once('connectvars.php');
-    require_once('connectdb_t.php');
     session_set_cookie_params(30*24*60*60, '/', '.myblog', false,true);
     session_start();
     $error_msg="";

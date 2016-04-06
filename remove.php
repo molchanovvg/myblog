@@ -1,8 +1,7 @@
 <?php
+require_once('core.php');
 $PageTitle='Удаление записи из php блога';
 require_once('header_t.php');
-require_once('connectvars.php');
-require_once('connectdb_t.php');
 require_once('check_adm_t.php');
 ?>
 <div id="wrapper">

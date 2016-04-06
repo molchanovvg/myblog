@@ -1,6 +1,5 @@
 <?php
-require_once('connectvars.php');
-require_once('connectdb_t.php');
+require_once('core.php');
 $head='';
 if (!isset($_GET['id'])&&(!isset($_POST['submit']))){
     include('404.php');

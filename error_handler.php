@@ -6,28 +6,50 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
         // Этот код ошибки не включен в error_reporting
         return;
     }
-
+    $message='';
+    $exit=0;
     switch ($errno) {
         case E_USER_ERROR:
-            echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-            echo "  Фатальная ошибка в строке $errline файла $errfile";
-            echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-            echo "Завершение работы...<br />\n";
-            exit(1);
+            $message = "My ERROR: [$errno] $errstr \n";
+            $message .= "  Фатальная ошибка в строке $errline файла $errfile";
+            $message .= ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+            $message .= "Завершение работы...<br />\n";
+            $exit=-1;
             break;
 
         case E_USER_WARNING:
-            echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+            $message = "My ERROR: [$errno] $errstr \n";
             break;
 
         case E_USER_NOTICE:
-            echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+            $message = "My ERROR: [$errno] $errstr \n";
             break;
 
         default:
-            echo "Неизвестная ошибка: [$errno] $errstr<br />\n";
+            $message = "Неизвестная ошибка: [$errno] $errstr\n";
             break;
     }
+
+    file_put_contents('error.log',$message, FILE_APPEND | LOCK_EX);
+
+    switch (ENV){
+        case dev:
+            echo $message;
+
+
+            break;
+        case prod:
+            require_once('mail.php');
+            SendMail($message);
+
+            break;
+        default:
+
+            break;
+
+    }
+    if ($exit)
+        exit($exit);
 }
 
 set_error_handler("myErrorHandler");

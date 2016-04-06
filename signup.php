@@ -1,8 +1,7 @@
 <?php
+require_once('core.php');
 $PageName='Регистрация в php блоге';
 require_once('header_t.php');
-require_once('connectvars.php');
-require_once('connectdb_t.php');
 $form_visible=true;
 ?>
 <div id="wrapper">

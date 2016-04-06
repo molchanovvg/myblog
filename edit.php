@@ -1,8 +1,7 @@
 <?php
+require_once('core.php');
 $PageTitle='Редактирование записи в php блоге';
 require_once('header_t.php');
-require_once('connectvars.php');
-require_once('connectdb_t.php');
 require_once('check_adm_t.php');
 
 

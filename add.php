@@ -1,8 +1,7 @@
 <?php
+require_once('core.php');
 $PageTitle='Создание поста в простой php блог';
 require_once('header_t.php');
-require_once('connectvars.php');
-require_once('connectdb_t.php');
 require_once('check_adm_t.php');
 ?>
     <div id="wrapper">
