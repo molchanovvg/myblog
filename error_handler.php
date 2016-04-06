@@ -35,13 +35,10 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     switch (ENV){
         case dev:
             echo $message;
-
-
             break;
         case prod:
             require_once('mail.php');
             SendMail($message);
-
             break;
         default:
 
