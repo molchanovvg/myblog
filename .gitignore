@@ -9,3 +9,5 @@
 /connectvars_for_online.php
 /connectvars.prod.php
 *.log
+
+/vendor/

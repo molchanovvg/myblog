@@ -1,0 +1,16 @@
+{
+    "name": "val/myblog",
+    "description": "Simple blog on pure PHP and MySQL",
+    "type": "application",
+    "require": {
+        "swiftmailer/swiftmailer": "@stable"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "molchanovvg",
+            "email": "valeruko@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
