@@ -1,5 +1,5 @@
 #Простой блог, основанный на PHP+MySQL#
-######создан valeruko@gmail.com######
+
 ##Основные моменты:##
 - устанавливается через копирование файлов на удаленный сервер, и исполнение двух sql скриптов;
 - для каждого поста указывается заголовок поста, сам пост, и автоматически устанавливается время добавления;
@@ -22,16 +22,17 @@
 
 ##Setup Database##
 
-####Run the script:####
-
-1. schema.sql
-2. sample_only_admin.sql or sample_full.sql
 
 ####Get copy of source code####
 ```
 cd /var/www
 git clone https://github.com/molchanovvg/myblog.git
 ```
+####Run the script:####
+
+1. schema.sql
+2. sample_only_admin.sql or sample_full.sql
+
 ##Note##
 
 User with right create/delete posts default is admin/123
