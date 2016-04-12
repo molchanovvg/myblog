@@ -22,16 +22,16 @@
 
 ##Setup Database##
 
-Run the script:
+####Run the script:####
 
 1. schema.sql
 2. sample_only_admin.sql or sample_full.sql
 
-Get copy of source code
+####Get copy of source code####
 ```
 cd /var/www
 git clone https://github.com/molchanovvg/myblog.git
 ```
-Note
+##Note##
 
 User with right create/delete posts default is admin/123
