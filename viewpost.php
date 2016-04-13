@@ -133,7 +133,7 @@ $errors = array(); // form processing error messages
                         <?php } ?>
                         <label for="verify">Защита от роботов:</label><br>
                         <img src="captcha.php"><br>
-                        <input type="text" name="verify" value="Введите буквы с картинки"><br>
+                        <input type="text" name="verify" placeholder="Введите буквы с картинки"><br>
                         <?php if (!empty($errors['verify'])) { ?>
                             <div class="error"><?php echo $errors['verify'] ?></div>
                         <?php } ?>
