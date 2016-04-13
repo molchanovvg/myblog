@@ -13,6 +13,7 @@ if (empty($recordId)){
     if ($stmt_select = mysqli_prepare($dbc, "SELECT id, date, head, rec FROM recordtable WHERE id=?")) {
         mysqli_stmt_bind_param($stmt_select, "i", $recordId);
         if (!(mysqli_stmt_execute($stmt_select))) {
+            trigger_error(mysqli_stmt_error($stmt_select), E_USER_WARNING);
             exit ('Ошибка при выборке записей: ' . mysqli_stmt_error($stmt_select));
         };
         mysqli_stmt_store_result($stmt_select);
@@ -62,6 +63,7 @@ $errors = array(); // form processing error messages
                         mysqli_stmt_bind_param($stmt_insert, "sss", $recordId , $_SESSION['user_id'], $commit);
                         if (!(mysqli_stmt_execute($stmt_insert)))
                         {
+                            trigger_error(mysqli_stmt_error($stmt_insert), E_USER_WARNING);
                             $errors['_form'] = 'Ошибка при добавлении комментария';
                         }
                         mysqli_stmt_close($stmt_insert);
@@ -98,6 +100,7 @@ $errors = array(); // form processing error messages
                     mysqli_stmt_bind_param($stmt_select, "i", $recordId);
                     if (!(mysqli_stmt_execute($stmt_select)))
                     {
+                        trigger_error(mysqli_stmt_error($stmt_select), E_USER_WARNING);
                         ?><div class="error">Комментарии не найдены</div><?php
                     } else
                     {
