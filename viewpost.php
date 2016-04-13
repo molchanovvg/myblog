@@ -1,16 +1,19 @@
 <?php
 require_once('core.php');
 $head='';
-if (!isset($_GET['id'])&&(!isset($_POST['submit']))){
+$recordId = isset($_GET['id']) // record id from URL or post data
+    ? $_GET['id']
+    : isset($_POST['id'])
+        ? $_POST['id']
+        : null;
+
+if (empty($recordId)){
     include('404.php');
-}
-if (isset($_GET['id'])) {
+} else {
     if ($stmt_select = mysqli_prepare($dbc, "SELECT id, date, head, rec FROM recordtable WHERE id=?")) {
-        mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
+        mysqli_stmt_bind_param($stmt_select, "i", $recordId);
         if (!(mysqli_stmt_execute($stmt_select))) {
-
             exit ('Ошибка при выборке записей: ' . mysqli_stmt_error($stmt_select));
-
         };
         mysqli_stmt_store_result($stmt_select);
         mysqli_stmt_bind_result($stmt_select, $id, $date, $head, $rec);
@@ -46,7 +49,7 @@ session_start();
                     if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(commid, date, postid, userid, comment) VALUES (0, NOW(), ?, ?, ?)"))
                     {
 
-                        mysqli_stmt_bind_param($stmt_insert, "sss", $_POST['id'] , $_SESSION['user_id'], $commit);
+                        mysqli_stmt_bind_param($stmt_insert, "sss", $recordId , $_SESSION['user_id'], $commit);
                         if (!(mysqli_stmt_execute($stmt_insert)))
                         {
                             exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_insert));
@@ -62,12 +65,12 @@ session_start();
                 else
                 {
                     $_SESSION['commit']=$_POST['commit'];
-                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_POST['id'].'';
+                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$recordId.'';
                     header('Location: '.$home_url);
                 }
 
             }
-            if (isset($_GET['id']))
+            if ($recordId)
             {
                     ?>
                     <article class="box post post-excerpt">
@@ -88,7 +91,7 @@ session_start();
 
                 if ($stmt_select = mysqli_prepare($dbc, "SELECT t1.username, t2.date, t2.comment FROM mybloguser as t1, commenttable as t2 WHERE t2.postid=?  AND t2.userid = t1.userid order by t2.date desc"))
                 {
-                    mysqli_stmt_bind_param($stmt_select, "i", $_GET['id']);
+                    mysqli_stmt_bind_param($stmt_select, "i", $recordId);
                     if (!(mysqli_stmt_execute($stmt_select)))
                     {
                         exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
@@ -127,7 +130,7 @@ session_start();
                         <img src="captcha.php"><br>
                         <input type="text" name="verify" value="Введите буквы с картинки"><br>
                         <input type="submit" value="Прокомментировать" name="submit">
-                        <input type="hidden" value="<?php echo $_GET['id']?>" name="id">
+                        <input type="hidden" value="<?php echo $recordId ?>" name="id">
                     </form>
                     <?php
                 }
