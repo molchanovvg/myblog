@@ -32,6 +32,8 @@ $PageTitle=$head.' просмотр записи в php блоге';
 require_once('header_t.php');
 
 session_start();
+
+$errors = array(); // form processing error messages
 ?>
 <div id="wrapper">
     <!-- Content -->
@@ -41,30 +43,32 @@ session_start();
 
             if ((isset($_POST['submit'])))
             {
-
-                if ($_SESSION['pass']==sha1($_POST['verify']))
+                if ($_SESSION['pass']==sha1($_POST['verify'])) // check captcha
                 {
+                    $errors['verify'] = 'Captcha введена не верно!';
+                }
 
-                    $commit=trim(strip_tags($_POST['commit']));
+                $commit=trim(strip_tags($_POST['commit']));
+                if (strlen($commit)<20)
+                {
+                    $errors['commit'] = 'Текст комментария должен быть не менее 20 символов';
+                }
+
+                if (empty($errors))
+                {
                     if ($stmt_insert = mysqli_prepare($dbc, "INSERT INTO commenttable(commid, date, postid, userid, comment) VALUES (0, NOW(), ?, ?, ?)"))
                     {
 
                         mysqli_stmt_bind_param($stmt_insert, "sss", $recordId , $_SESSION['user_id'], $commit);
                         if (!(mysqli_stmt_execute($stmt_insert)))
                         {
-                            exit ('Ошибка при добавлении записи: '.mysqli_stmt_error($stmt_insert));
-                        };
+                            $errors['_form'] = 'Ошибка при добавлении комментария';
+                        }
                         mysqli_stmt_close($stmt_insert);
-                    };
-                    echo '<p>Вы добавили комментарий.</p>';
+                    }
+
                     mysqli_close($dbc);
-                    $_SESSION['commit']='';
-                    $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$_POST['id'].'';
-                    header('Location: '.$home_url);
-                }
-                else
-                {
-                    $_SESSION['commit']=$_POST['commit'];
+                    echo '<p>Вы добавили комментарий.</p>';
                     $home_url='http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'viewpost.php?id='.$recordId.'';
                     header('Location: '.$home_url);
                 }
@@ -94,41 +98,45 @@ session_start();
                     mysqli_stmt_bind_param($stmt_select, "i", $recordId);
                     if (!(mysqli_stmt_execute($stmt_select)))
                     {
-                        exit ('Ошибка при выборке записей: '.mysqli_stmt_error($stmt_select));
-                    };
-                    mysqli_stmt_bind_result($stmt_select, $name, $date, $comm);
-                    while (mysqli_stmt_fetch($stmt_select))
+                        ?><div class="error">Комментарии не найдены</div><?php
+                    } else
                     {
-                        ?>
-                        <article class="box post post-excerpt">
-                            <header>
-                                <h1><?php echo $name.'  '.$date ?></h1>
-                            </header>
-                            <p>
-                                <?php echo $comm?>
-                            </p>
-                        </article>
-                        <?php
-                    };
-
-                    mysqli_stmt_close($stmt_select);
-
+                        mysqli_stmt_bind_result($stmt_select, $name, $date, $comm);
+                        while (mysqli_stmt_fetch($stmt_select))
+                        {
+                            ?>
+                            <article class="box post post-excerpt">
+                                <header>
+                                    <h1><?php echo $name.'  '.$date ?></h1>
+                                </header>
+                                <p>
+                                    <?php echo $comm?>
+                                </p>
+                            </article>
+                            <?php
+                        };
+                        mysqli_stmt_close($stmt_select);
+                    }
                 };
                 if (isset($_SESSION['user_id']))
                 {
-                    if (!empty($_SESSION['commit']))
-                    {
-                        echo 'Captcha введена не верно!';
-                    }
-                    ?>
+                    if (!empty($errors['_form'])) { ?>
+                        <div class="error"><?php echo $errors['_form'] ?></div>
+                    <?php } ?>
                     <!-- New commit -->
                     <p>Добавить комментарий</p>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <label for="commit">Комментарий:</label><br>
                         <textarea name="commit" cols="40" rows="10" id="commit"><?php echo $_SESSION['commit'] ?></textarea><br>
+                        <?php if (!empty($errors['commit'])) { ?>
+                            <div class="error"><?php echo $errors['commit'] ?></div>
+                        <?php } ?>
                         <label for="verify">Защита от роботов:</label><br>
                         <img src="captcha.php"><br>
                         <input type="text" name="verify" value="Введите буквы с картинки"><br>
+                        <?php if (!empty($errors['verify'])) { ?>
+                            <div class="error"><?php echo $errors['verify'] ?></div>
+                        <?php } ?>
                         <input type="submit" value="Прокомментировать" name="submit">
                         <input type="hidden" value="<?php echo $recordId ?>" name="id">
                     </form>
