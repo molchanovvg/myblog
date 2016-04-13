@@ -127,7 +127,7 @@ $errors = array(); // form processing error messages
                     <p>Добавить комментарий</p>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <label for="commit">Комментарий:</label><br>
-                        <textarea name="commit" cols="40" rows="10" id="commit"><?php echo $_SESSION['commit'] ?></textarea><br>
+                        <textarea name="commit" cols="40" rows="10" id="commit"><?php echo isset($_POST['commit']) ? htmlentities($_POST['commit']) : '' ?></textarea><br>
                         <?php if (!empty($errors['commit'])) { ?>
                             <div class="error"><?php echo $errors['commit'] ?></div>
                         <?php } ?>
