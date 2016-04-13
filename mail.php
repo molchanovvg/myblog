@@ -1,6 +1,5 @@
 <?php
 function SendMail($message_body){
-    require_once 'lib/swift_required.php';
     // Create the mail transport configuration
     $transport = Swift_SmtpTransport::newInstance("smtp.yandex.ru", 465);
     $transport->setUsername("molchanov256@yandex.ru");
