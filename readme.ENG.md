@@ -1,7 +1,7 @@
 # Simple blog, based on PHP and MySQL#
 [Demo](http://myblog.molchanov.site)
 
-
+[Readme RUS](https://github.com/molchanovvg/myblog/blob/master/readme.md)
 ##Basic moments:##
 - Established after copying files to a remote server, and the execution of two sql scripts;
 - For each post is indicated post title, post himself, and is automatically installed during the addition;
