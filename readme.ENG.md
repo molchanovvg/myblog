@@ -15,11 +15,13 @@
 ####Requirements####
 - PHP 5.5+
 - MySQL 5.0+
+- [Composer](https://getcomposer.org/download/)
 
 ####Get copy of source code####
 ```
 cd /var/www
 git clone https://github.com/molchanovvg/myblog.git
+php composer.phar install
 ```
 ####Run the script:####
 ```

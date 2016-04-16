@@ -16,11 +16,13 @@
 ####Минимальные требования####
 - PHP 5.5+
 - MySQL 5.0+
+- [Composer](https://getcomposer.org/download/)
 
 ####Скопировать репозиторий####
 ```
 cd /var/www
 git clone https://github.com/molchanovvg/myblog.git
+php composer.phar install
 ```
 #### Выполнить скрипты####
 ```
