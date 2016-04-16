@@ -26,6 +26,6 @@ git clone https://github.com/molchanovvg/myblog.git
 1. <project>/sql/schema.sql for create structures
 2. <project>/sql/sample_only_admin.sql or <project>/sql/sample_full.sql for Blog content
 ```
-##Note##
+####Note####
 
 User with right create/delete posts default is admin/123
