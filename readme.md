@@ -1,4 +1,5 @@
 #Простой блог, основанный на PHP+MySQL#
+Демо версия: [I'm an inline-style link](http://myblog.molchanov.site)
 
 ##Основные моменты:##
 - устанавливается через копирование файлов на удаленный сервер, и исполнение двух sql скриптов;
@@ -30,8 +31,8 @@ git clone https://github.com/molchanovvg/myblog.git
 ```
 ####Run the script:####
 ```
-1. schema.sql
-2. sample_only_admin.sql or sample_full.sql
+1. <project>/sql/schema.sql for create structures
+2. <project>/sql/sample_only_admin.sql or <project>/sql/sample_full.sql for Blog content
 ```
 ##Note##
 
