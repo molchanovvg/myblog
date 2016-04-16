@@ -14,7 +14,8 @@
 ####Минимальные требования####
 - PHP 5.5+
 - MySQL 5.0+
-#### Скопировать репозиторий####
+
+####Скопировать репозиторий####
 ```
 cd /var/www
 git clone https://github.com/molchanovvg/myblog.git
