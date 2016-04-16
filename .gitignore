@@ -11,3 +11,5 @@
 *.log
 
 /vendor/
+composer.lock
+
