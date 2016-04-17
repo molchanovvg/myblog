@@ -2,8 +2,11 @@
 if (is_file('connectvars.prod.php'))
     include_once('connectvars.prod.php');
 
+if (is_file('connectvars.local.php'))
+    include_once('connectvars.local.php');
+
 if (!defined('ENV'))
-    define('ENV', 'dev');
+    define('ENV', 'prod');
 
 if (!defined('DB_HOST'))
     define('DB_HOST', 'localhost');
