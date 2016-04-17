@@ -12,5 +12,7 @@
 
 /vendor/
 composer.lock
+/params.prod.php
+/params.dev.php
 connectvars.local.php
 
