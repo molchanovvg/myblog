@@ -1,9 +1,11 @@
 <?php
 // функция обработки ошибок
-function myErrorHandler($errno, $errstr, $errfile, $errline)
+function myErrorHandler($errno, $errstr, $errfile, $errline, $config)
 {
+    global $config;
     if (!(error_reporting() & $errno)) {
         // Этот код ошибки не включен в error_reporting
+        echo 'Something went wrong';
         return;
     }
     $message='';
@@ -35,7 +37,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 
     file_put_contents('error.log',$message, FILE_APPEND | LOCK_EX);
 
-    switch (ENV){
+    switch ($config->getParam('ENV')){
         case 'dev':
             echo $message;
             break;
