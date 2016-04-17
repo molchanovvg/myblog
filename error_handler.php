@@ -24,6 +24,9 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
         case E_USER_NOTICE:
             $message = "My ERROR: [$errno] $errstr \n";
             break;
+        case E_WARNING:
+            $message = "My ERROR: [$errno] $errstr \n";
+            break;
 
         default:
             $message = "Неизвестная ошибка: [$errno] $errstr\n";
@@ -33,10 +36,10 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     file_put_contents('error.log',$message, FILE_APPEND | LOCK_EX);
 
     switch (ENV){
-        case dev:
+        case 'dev':
             echo $message;
             break;
-        case prod:
+        case 'prod':
             require_once('mail.php');
             SendMail($message);
             break;
