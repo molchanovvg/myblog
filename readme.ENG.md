@@ -22,11 +22,16 @@
 cd /var/www
 git clone https://github.com/molchanovvg/myblog.git
 php composer.phar install
+
 ```
 ####Run the script:####
 ```
 1. <project>/sql/schema.sql for create structures
 2. <project>/sql/sample_only_admin.sql or <project>/sql/sample_full.sql for Blog content
+```
+#### Specify your options####
+```
+<project>/params.php
 ```
 ####Note####
 

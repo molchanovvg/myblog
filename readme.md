@@ -29,6 +29,10 @@ php composer.phar install
 1. <project>/sql/schema.sql for create structures
 2. <project>/sql/sample_only_admin.sql or <project>/sql/sample_full.sql for Blog content
 ```
+#### Указать свои параметры####
+```
+<project>/params.php
+```
 #### Примечание####
 
 Пользователь с правами добавления/удаления записей, по умолчанию: admin/123
