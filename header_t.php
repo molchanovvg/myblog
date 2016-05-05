@@ -3,7 +3,7 @@
 <head>
     <title><?php echo $PageTitle; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="alternate" type="application/rss+xml" title="Блог основанный на PHP/MySQL" href="http://myblog/newsfeed.php/" />
+    <link rel="alternate" type="application/rss+xml" title="Блог основанный на PHP/MySQL" href="/newsfeed.php" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <!--[if lte IE 8]><script src="/css/ie/html5shiv.js"></script><![endif]-->
