@@ -1,6 +1,5 @@
 <?php
 
-
 // Подключаем конфигурацию
 $params=include('params.php');
 if (is_file('params.dev.php'))
